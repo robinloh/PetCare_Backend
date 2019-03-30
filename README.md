@@ -3,10 +3,9 @@ CS2102 - Database Systems
 
 ## Installation
 
-1. Git clone/pull the repository to your own local directory
-2. Install npm packages using `npm install`
-3. Open SQL Shell (psql). Fill in the necessary details, or simply press Enter for all ﬁelds except password if using default setting.
-4. Copy and paste the following code into the console. 
+* Git clone/pull the repository to your own local directory
+* Open SQL Shell (psql). Fill in the necessary details, or simply press Enter for all ﬁelds except password if using default setting.
+* Copy and paste the following code into the console. 
 
 ```
 CREATE TABLE student_info (
@@ -46,7 +45,9 @@ INSERT INTO student_info (matric, name, faculty)
 VALUES ('A0000010J', 'Alyssa Sims', 'SCI');
 ```
 
-5. Make sure you have a `.env` file in the source directory. The .env file contains a single line `DATABASE_URL=postgres://username:password@host_address:port/database_name`. See Step 8 in the start guide for details.
+* Update the `.env` file by replacing the `username`, `password`.
+* Install npm packages using `npm install`.
+
 
 ## Available Scripts
 
