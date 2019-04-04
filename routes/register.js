@@ -11,23 +11,11 @@ const pool = new Pool({
 /**********************************************/
 
 function runGetQuery(res) {
-	res.render('login', {title: 'Petcare - Login Page'});
+	res.render('register', {title: 'Petcare - Register Page'});
 }
 
 function runPostQuery(req, res) {
 
-	var email = req.body.email;
-	var password = req.body.password;
-
-	var sql_query = 'SELECT * FROM users WHERE email = \'' + email + '\' and password = \'' + password + '\';';
-
-	pool.query(sql_query, (err, data) => {
-		if (data.rowCount == 1) {
-			res.render('index', {title: 'Login Successful'});
-		} else {
-			res.redirect('login');
-		}
-	});
 }
 
 /**********************************************/
@@ -40,14 +28,10 @@ app.post('/', function(req, res, next) {
 	runPostQuery(req, res);
 });
 
-app.route('/register').get(function(req, res, next) {
-	res.render('register', {title: 'Petcare - Register Page'});
-});
-
 /**********************************************/
 
 router.get('/', function(req, res, next) {
-	res.render('login', { title: 'Petcare - Login Page' });
+	runGetQuery(res);
 });
 
 
