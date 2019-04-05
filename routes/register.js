@@ -1,6 +1,4 @@
 var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
 var router = express.Router();
 
 const { Pool } = require('pg')
@@ -8,48 +6,27 @@ const pool = new Pool({
 	connectionString: process.env.DATABASE_URL
 });
 
-/**********************************************/
-
-function runGetQuery(res) {
-	res.render('register', {title: 'Petcare - Register Page'});
-}
-
-function runPostQuery(req, res) {
+router.post('/', function (req, res, next) {
 	const data = {
 		email: req.body.email,
-		name: req.body.name,
-		phone: req.body.phone,
-		age: req.body.age,
-		password: req.body.password
+		password: req.body.password,
+		role: req.body.role
 	};
+	console.log(data);
+	const sql_query = 'INSERT INTO users(email, password) VALUES($1, $2)';
+	const values = [data.email, data.password];
 
-	const sql_query = 'INSERT INTO users(email, name, phone, age, password) VALUES($1, $2, $3, $4, $5)';
-	const values = [data.email, data.name, data.phone, data.age, data.password];
+	if (data.role === 'Pet Owner') {
+		// Write into care taker with pet owner
+	} else {
+		// Care taker
+	}
 
+	// TODO: Make SQL query a transaction and insert into caretakers Table
 	pool.query(sql_query, values, (err, result) => {
-		res.render('login', {title: 'User Creation Successful'});
+		// TODO: Make SQL query.
+		// Check for duplicate email and return 400 if email already exists.
 	});
-}
-
-/**********************************************/
-
-app.get('/', function(req, res, next) {
-	runGetQuery(res);
 });
 
-app.post('/', function(req, res, next) {
-	runPostQuery(req, res);
-});
-
-/**********************************************/
-
-router.get('/', function(req, res, next) {
-	runGetQuery(res);
-});
-
-
-router.post('/', function(req, res, next) {
-	runPostQuery(req, res);
-});
-
-module.exports = router, app;
+module.exports = router;

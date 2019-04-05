@@ -21,10 +21,11 @@ router.post('/', function (req, res, next) {
 	pool.query(sql_query, (err, data) => {
 		if (data.rowCount == 1) {
 			// TODO: Return user object.
-			res.send();
+			const user = data.rows[0];
+			res.send(user);
 		} else {
 			// Return Error 404 user does not exists
-			res.redirect('login');
+			res.status(400, "Error, User not found");
 		}
 	});
 });
