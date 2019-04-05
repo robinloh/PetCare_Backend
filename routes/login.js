@@ -21,6 +21,7 @@ router.post('/', function (req, res, next) {
         if (result.rowCount == 1) {
             // TODO: Return user object.
             const user = result.rows[0];
+            console.log(user);
             res.send(user);
         } else {
             // Return Error 404 user does not exists
