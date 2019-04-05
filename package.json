@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node ./bin/www",
-    "create": "node ./models/db createTables"
+    "create": "node ./models/db createDb"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
