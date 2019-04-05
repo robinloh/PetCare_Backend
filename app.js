@@ -3,7 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var queries = require('./models/queries');
 const cors = require('cors');
+
 
 /* --- V7: Using dotenv     --- */
 require('dotenv').config();

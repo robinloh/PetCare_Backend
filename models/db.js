@@ -44,11 +44,10 @@ let createTables = 'CREATE table Users (' +
     'email    varchar(320) PRIMARY KEY,' +
     'name     varchar(255) NOT NULL,' +
     'phone    int NOT null,' +
-    'age      int,' +
     'password varchar not null' +
     ');' +
 
-    'insert into Users values (\'a@hotmail.com\', \'Jane\', 91234567, 25, \'12345678\');' +
+    'insert into Users values (\'a@hotmail.com\', \'Jane\', 91234567, \'12345678\');' +
 
     'create table PetOwners (' +
     'email varchar(320) primary key references Users on delete cascade' +
