@@ -15,7 +15,20 @@ function runGetQuery(res) {
 }
 
 function runPostQuery(req, res) {
+	const data = {
+		email: req.body.email,
+		name: req.body.name,
+		phone: req.body.phone,
+		age: req.body.age,
+		password: req.body.password
+	};
 
+	const sql_query = 'INSERT INTO users(email, name, phone, age, password) VALUES($1, $2, $3, $4, $5)';
+	const values = [data.email, data.name, data.phone, data.age, data.password];
+
+	pool.query(sql_query, values, (err, result) => {
+		res.render('login', {title: 'User Creation Successful'});
+	});
 }
 
 /**********************************************/
