@@ -23,7 +23,7 @@ function runPostQuery(req, res) {
 
 	pool.query(sql_query, (err, data) => {
 		if (data.rowCount == 1) {
-			res.render('index', {title: 'Login Successful'});
+			res.render('index', {title: 'Login Successful - Welcome to Petcare'});
 		} else {
 			res.redirect('login');
 		}
