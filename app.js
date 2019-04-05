@@ -28,6 +28,8 @@ const port = 3030;
 app.listen(port, (() => {
   console.log('> Listening on', port);
 }));
+
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -37,17 +39,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', loginRouter);
-app.use('/index', indexRouter);
 
 /* --- V6: Modify Database  --- */
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/index', indexRouter);
 app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 /* ---------------------------- */
 
-app.use('/register', registerRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
