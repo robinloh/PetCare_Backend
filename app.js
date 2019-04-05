@@ -1,28 +1,27 @@
 var createError = require('http-errors');
 var express = require('express');
+var app = express();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var queries = require('./models/queries');
 const cors = require('cors');
 
-
-/* --- V7: Using dotenv     --- */
+// For database
 require('dotenv').config();
 
+// For routing
 var indexRouter = require('./routes/index');
+app.use('/index', indexRouter);
 
-/* --- V6: Modify Database  --- */
 var loginRouter = require('./routes/login');
-/* ---------------------------- */
+app.use('/login', loginRouter);
 
 var registerRouter = require('./routes/register');
+app.use('/register', registerRouter);
 
-
-var app = express();
 // For Local dev. CORS policy.
 app.use(cors());
-
 
 
 // view engine setup
@@ -36,15 +35,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-/* --- V6: Modify Database  --- */
+// Modify Database
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/index', indexRouter);
-app.use('/login', loginRouter);
-app.use('/register', registerRouter);
-/* ---------------------------- */
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
