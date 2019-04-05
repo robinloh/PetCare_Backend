@@ -12,13 +12,10 @@ require('dotenv').config();
 
 // For routing
 var indexRouter = require('./routes/index');
-app.use('/index', indexRouter);
 
 var loginRouter = require('./routes/login');
-app.use('/login', loginRouter);
 
 var registerRouter = require('./routes/register');
-app.use('/register', registerRouter);
 
 // For Local dev. CORS policy.
 app.use(cors());
@@ -39,6 +36,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/index', indexRouter);
+app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
