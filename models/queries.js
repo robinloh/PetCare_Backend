@@ -16,7 +16,7 @@ queries.query = {
     is_petowner: 'SELECT * FROM PetOwners WHERE email = $1', //[email] results will be empty if false
     
     // Pet related
-    add_pet: 'INSERT INTO Pets VALUES($1, (select max(pid) from pets) + 1 AS pid, $2, $3) RETURNING pid', //[name, age, speciesName, breedName] pid to be generated; speciesname and breedname selected from list
+    add_pet: 'INSERT INTO Pets VALUES($1) RETURNING pid', //[name, age, speciesName, breedName] pid to be generated; speciesname and breedname selected from list
     add_pets_owner: 'INSERT INTO OwnsPet VALUES($1, $2)', //[email, pid]
     get_pets: 'SELECT pid FROM OwnsPet WHERE email = $1', //[email]
     
@@ -30,7 +30,7 @@ queries.query = {
     add_diet: 'INSERT INTO diets VALUES($1)',
 
     // SpecialNote related
-    add_specialnote: 'INSERT INTO specialnotes VALUES($1)',
+    add_specialnote: 'INSERT INTO specialnotes VALUES($1, $2)',
     
 }
 

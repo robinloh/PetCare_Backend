@@ -70,9 +70,7 @@ let createTables = 'CREATE table Users (' +
 
     'create table Pets (' +
     'name varchar(255) not null,' +
-    'pid int primary key,' +
-    'speciesName varchar(255) references Species not null,' +
-    'breedName varchar(255) references Breeds not null' +
+    'pid serial primary key' +
     ');' +
 
     'create table isOfSpecies (' +
@@ -161,7 +159,8 @@ let createTables = 'CREATE table Users (' +
     ');' +
     
     'create table SpecialNotes (' +
-    'specialNote varchar(255) primary key' +
+    'pid int primary key,' +
+    'specialNote varchar(255)' +
     ');';
 
 pool.on('remove', () => {

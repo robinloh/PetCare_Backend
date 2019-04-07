@@ -10,12 +10,22 @@ const pool = new Pool({
 });
 
 router.post('/', function (req, res, next) {
+    // const data = {
+    //     email:       req.body.email,
+    //     name:        req.body.name,
+    //     speciesName: req.body.species,
+    //     breedName:   req.body.breed,
+    //     diet:        req.body.diet,
+    //     specialNote: req.body.specialNote
+    // };
+
     const data = {
-        name:        req.body.name,
-        speciesName: req.body.speciesName,
-        breedName:   req.body.breedName,
-        diet:        req.body.diet,
-        specialNote: req.body.specialNote
+        email:       'r@gmail.com',
+        name:        'Ob',
+        speciesName: 'Cat',
+        breedName:   'Golden Retriever',
+        diet:        'Vegetarian',
+        specialNote: 'NIL'
     };
     console.log(data);
 
@@ -27,27 +37,29 @@ router.post('/', function (req, res, next) {
             await client.query('BEGIN')
 
             // Pets table
-            const { rows } = await client.query(queries.query.add_pet, [data.name, data.speciesName, data.breedName])
+            const {rows} = await client.query(queries.query.add_pet, [data.name])
 
             // IsOfSpecies table
-            await client.query(queries.query.add_isofspecies, [res.rows[0].pid, data.speciesName]);
+            await client.query(queries.query.add_isofspecies, [rows[0].pid, data.speciesName])
 
             // PetBreed table
-            await client.query(queries.query.add_petbreed, [res.rows[0].pid, data.breedName]);
+            await client.query(queries.query.add_petbreed, [rows[0].pid, data.breedName])
 
             // Diets table
-            await client.query(queries.query.add_diet, [data.diet]);
+            await client.query(queries.query.add_diet, [data.diet])
 
             // SpecialNotes table
-            await client.query(queries.query.add_specialnote, [data.specialNote]);
+            await client.query(queries.query.add_specialnote, [rows[0].pid, data.specialNote])
 
             // OwnsPet table
-            // TODO: CREATE TRIGGER?
-
+            await client.query(queries.query.add_pets_owner, [data.email, rows[0].pid])
 
             await client.query('COMMIT')
-            console.log("Add Pet " + data.name + " " + data.speciesName + " " + data.breedName + " " + data.diet + data.specialNote + " registered");
+
+            console.log("Add Pet " + data.name + " " + data.speciesName + " " + data.breedName + " " + data.diet + data.specialNote + " successful");
+
             res.send("success");
+
         } catch (e) {
             await client.query('ROLLBACK')
             throw e
