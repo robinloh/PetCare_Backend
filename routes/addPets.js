@@ -14,8 +14,8 @@ router.post('/', function (req, res, next) {
     const data = {
         email:       req.body.email,
         name:        req.body.name,
-        speciesName: req.body.species,
-        breedName:   req.body.breed,
+        speciesName: req.body.speciesName,
+        breedName:   req.body.breedName,
         diet:        req.body.diet,
         specialNote: req.body.specialNote
     };
