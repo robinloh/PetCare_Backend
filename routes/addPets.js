@@ -10,23 +10,16 @@ const pool = new Pool({
 });
 
 router.post('/', function (req, res, next) {
-    // const data = {
-    //     email:       req.body.email,
-    //     name:        req.body.name,
-    //     speciesName: req.body.species,
-    //     breedName:   req.body.breed,
-    //     diet:        req.body.diet,
-    //     specialNote: req.body.specialNote
-    // };
 
     const data = {
-        email:       'r@gmail.com',
-        name:        'Ob',
-        speciesName: 'Cat',
-        breedName:   'Golden Retriever',
-        diet:        'Vegetarian',
-        specialNote: 'NIL'
+        email:       req.body.email,
+        name:        req.body.name,
+        speciesName: req.body.species,
+        breedName:   req.body.breed,
+        diet:        req.body.diet,
+        specialNote: req.body.specialNote
     };
+
     console.log(data);
 
     (async () => {
