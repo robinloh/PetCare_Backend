@@ -29,7 +29,7 @@ let dropTables = 'drop table if exists Badges, hasBadge;' +
     'drop table if exists Wallets, Services, provideService;' +
     'drop table if exists BreedDietRestrictions, Diet;' +
     'drop table if exists PetBreed;' +
-    'drop table if exists Breeds;' +
+    'drop table if exists Breeds cascade;' +
     'drop table if exists Species, isOfSpecies cascade;' +
     'drop table if exists CatBreeds;' +
     'drop table if exists Cats;' +
@@ -38,7 +38,8 @@ let dropTables = 'drop table if exists Badges, hasBadge;' +
     'drop table if exists Pets cascade;' +
     'drop table if exists Caretakers;' +
     'drop table if exists PetOwners, OwnsPet cascade;' +
-    'drop table if exists Users cascade;';
+    'drop table if exists Users cascade;' +
+    'drop table if exists SpecialNotes;';
 
 let createTables = 'CREATE table Users (' +
     'email    varchar(320) PRIMARY KEY,' +
@@ -69,8 +70,8 @@ let createTables = 'CREATE table Users (' +
     'create table Pets (' +
     'name varchar(255) not null,' +
     'pid int primary key,' +
-    'age int,' +
-    'speciesName varchar(255) references Species not null' +
+    'speciesName varchar(255) references Species not null,' +
+    'breedName varchar(255) references Breeds not null' +
     ');' +
 
     'create table isOfSpecies (' +
@@ -156,6 +157,10 @@ let createTables = 'CREATE table Users (' +
     'badge varchar(255),' +
     'email varchar(255) references Users,' +
     'primary key (badge, email)' +
+    ');' +
+    
+    'create table SpecialNotes (' +
+    'specialNote varchar(255) primary key' +
     ');';
 
 pool.on('remove', () => {
