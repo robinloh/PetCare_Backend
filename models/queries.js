@@ -16,12 +16,21 @@ queries.query = {
     is_petowner: 'SELECT * FROM PetOwners WHERE email = $1', //[email] results will be empty if false
     
     // Pet related
-    add_pet: 'INSERT INTO Pets VALUES($2, $1, $3, $4, $5)', //[pid, name, age, speciesName, breedName] pid to be generated; speciesname and breedname selected from list
+    add_pet: 'INSERT INTO Pets VALUES($1, (select max(pid) from pets) + 1 AS pid, $2, $3) RETURNING pid', //[name, age, speciesName, breedName] pid to be generated; speciesname and breedname selected from list
     add_pets_owner: 'INSERT INTO OwnsPet VALUES($1, $2)', //[email, pid]
     get_pets: 'SELECT pid FROM OwnsPet WHERE email = $1', //[email]
     
-    // Availability related
-    
+    // isOfSpecies related
+    add_isofspecies: 'INSERT INTO isofspecies VALUES($1, $2)',
+
+    // PetBreed related
+    add_petbreed: 'INSERT INTO petbreed VALUES($1, $2)',
+
+    // Diet related
+    add_diet: 'INSERT INTO diets VALUES($1)',
+
+    // SpecialNote related
+    add_specialnote: 'INSERT INTO specialnotes VALUES($1)',
     
 }
 
