@@ -49,7 +49,7 @@ router.post('/', function (req, res, next) {
 
             await client.query('COMMIT')
 
-            console.log("Add Pet " + data.name + " " + data.speciesName + " " + data.breedName + " " + data.diet + data.specialNote + " successful");
+            console.log("\nADD PET SUCCESSFUL\n");
 
             res.send("success");
 
