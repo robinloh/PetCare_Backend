@@ -20,7 +20,12 @@ queries.query = {
     add_pets_owner: 'INSERT INTO OwnsPet VALUES($1, $2)', //[email, pid]
     get_pets: 'SELECT pid FROM OwnsPet WHERE email = $1', //[email]
     
-    // Availability related
+    // Availability and bids related
+    add_availability: 'INSERT INTO Availabilities VALUES($1, $2, $3)', //[startDate, endDate, email]
+    delete_availability: 'DELETE FROM Availabilities WHERE startDate = $1 && endDate = $2 && email = $3', //[startDate, endDate, email]
+    
+    find_services: 'SELECT email FROM Availabilities A INNER JOIN provideService S WHERE $1 > startDate AND $1 < endDate AND serviceid = $2 AND NOT EXISTS (SELECT 1 FROM Bids B WHERE A.email = B.caretakerEmail AND dateOfService = $1 AND status = "Won")', // [dateOfService, typeOfService]
+    get_work_schedule: 'SELECT DateOfService FROM Bids WHERE email = $1 and status = "Won"' //[email]
     
     
 }

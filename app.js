@@ -17,6 +17,8 @@ var loginRouter = require('./routes/login');
 
 var registerRouter = require('./routes/register');
 
+vare caretakerRouter = require('./routes/caretaker');
+
 // For Local dev. CORS policy.
 app.use(cors());
 
@@ -39,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/index', indexRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/caretaker', caretakerRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
