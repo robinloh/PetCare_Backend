@@ -17,7 +17,9 @@ var loginRouter = require('./routes/login');
 
 var registerRouter = require('./routes/register');
 
-vare caretakerRouter = require('./routes/caretaker');
+var caretakerRouter = require('./routes/caretaker');
+
+var addPetsRouter = require('./routes/addPets');
 
 // For Local dev. CORS policy.
 app.use(cors());
@@ -38,10 +40,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use('/index', indexRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/caretaker', caretakerRouter);
+app.use('/addPets', addPetsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

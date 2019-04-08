@@ -41,7 +41,7 @@ router.post('/', function (req, res, next) {
             await client.query('BEGIN')
             const {
                 rows
-            } = await client.query(queries.query.add_user, [data.email, "John Doe", "0", data.password])
+            } = await client.query(queries.query.add_user, [data.email, data.password])
 
             if (data.role === 'Pet Owner') {
                 await client.query(queries.query.add_petowner, [data.email])
