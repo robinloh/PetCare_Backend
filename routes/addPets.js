@@ -13,10 +13,10 @@ router.post('/', function (req, res, next) {
 
     const data = {
         email:       req.body.email,
+        diet:        req.body.diet,
         name:        req.body.name,
         speciesName: req.body.speciesName,
         breedName:   req.body.breedName,
-        diet:        req.body.diet,
         specialNote: req.body.specialNote
     };
 
@@ -38,14 +38,14 @@ router.post('/', function (req, res, next) {
             // PetBreed table
             await client.query(queries.query.add_petbreed, [rows[0].pid, data.breedName])
 
-            // Diets table
-            await client.query(queries.query.add_diet, [data.diet])
-
             // SpecialNotes table
             await client.query(queries.query.add_specialnote, [rows[0].pid, data.specialNote])
 
             // OwnsPet table
             await client.query(queries.query.add_pets_owner, [data.email, rows[0].pid])
+
+            // HasDietRestrictions table
+            await client.query(queries.query.add_diet_restriction, [rows[0].pid, data.diet])
 
             await client.query('COMMIT')
 

@@ -40,13 +40,16 @@ let insertBreeds = 'insert into breeds values (\'Golden Retriever\', \'Dog\');' 
 
 let insertDiets = 'insert into diets values (\'Vegetarian\');' +
     'insert into diets values (\'Carnivore\');' +
-    'insert into diets values (\'Gluten-Free\');';
+    'insert into diets values (\'Gluten-Free\');' +
+    'insert into diets values (\'None\');';
 
 let dropTables = 'drop table if exists Badges, hasBadge;' +
     'drop table if exists Reviews, Transactions;' +
     'drop table if exists Bids, Availabilities, StatusTypes;' +
     'drop table if exists Wallets, Services, provideService;' +
-    'drop table if exists BreedDietRestrictions, Diets cascade;' +
+    'drop table if exists BreedDietRestrictions cascade;' +
+    'drop table if exists HasDietRestrictions cascade;' +
+    'drop table if exists Diets cascade;' +
     'drop table if exists PetBreed;' +
     'drop table if exists Diet cascade;' + // TODO: To remove
     'drop table if exists Breeds cascade;' +
@@ -62,9 +65,9 @@ let dropTables = 'drop table if exists Badges, hasBadge;' +
     'drop table if exists SpecialNotes;';
 
 let createTables = 'CREATE table Users (' +
-    'email    varchar(320) PRIMARY KEY,' +
-    'name     varchar(255) NOT NULL,' +
-    'phone    int NOT null,' +
+    'email    varchar(320) primary key,' +
+    'name     varchar(255) not null,' +
+    'phone    numeric(8) not null,' +
     'password varchar not null' +
     ');' +
 
@@ -111,10 +114,10 @@ let createTables = 'CREATE table Users (' +
     'diet varchar(255) primary key' +
     ');' +
 
-    'create table BreedDietRestrictions (' +
-    'breedName varchar(255) references Breeds,' +
+    'create table HasDietRestrictions (' +
+    'pid int references Pets,' +
     'diet varchar(255) references Diets,' +
-    'primary key (breedName, diet)' +
+    'primary key (pid, diet)' +
     ');' +
 
     'create table Availabilities (' +
@@ -180,7 +183,7 @@ let createTables = 'CREATE table Users (' +
     ');' +
     
     'create table SpecialNotes (' +
-    'pid int primary key,' +
+    'pid int primary key references Pets,' +
     'specialNote varchar(255)' +
     ');';
 
