@@ -17,6 +17,7 @@ queries.query = {
     
     // Pet related
     add_pet: 'INSERT INTO Pets VALUES($1) RETURNING pid', //[name] pid to be generated
+    delete_pet: 'DELETE FROM Pets WHERE name = $1',
     add_pets_owner: 'INSERT INTO OwnsPet VALUES($1, $2)', //[email, pid]
     get_pets: 'SELECT pid FROM OwnsPet WHERE email = $1', //[email]
     
