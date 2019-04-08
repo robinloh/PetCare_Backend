@@ -12,7 +12,7 @@ pool.on('connect', () => {
 });
 
 const createDb = () => {
-    pool.query(dropTables + createTables + insertSpecies + insertBreeds + insertTestUsers)
+    pool.query(dropTables + createTables + insertSpecies + insertBreeds + insertDiets + insertTestUsers)
         .then((res) => {
             console.log(res);
             pool.end();
