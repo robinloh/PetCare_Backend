@@ -24,11 +24,8 @@ router.post('/', function (req, res, next) {
     switch (data.reqType) {
         
         case 'addPets':
-            
             (async () => {
-
                 const client = await pool.connect()
-
                 try {
                     await client.query('BEGIN')
 
@@ -71,7 +68,39 @@ router.post('/', function (req, res, next) {
             pool.query(queries.query.delete_pet, [data.name], (err, result) => {
                 if (err) {
                     res.status(400).send(err.stack);
+                } else {
+                    console.log(result);
+                    res.send(result);
+                }
+            });
+            break;
 
+        case "getAllSpecies":
+            pool.query(queries.query.get_all_species, (err, result) => {
+                if (err) {
+                    res.status(400).send(err.stack);
+                } else {
+                    console.log(result);
+                    res.send(result);
+                }
+            });
+            break;
+
+        case "getAllBreeds":
+            pool.query(queries.query.get_all_breeds, [data.speciesName], (err, result) => {
+                if (err) {
+                    res.status(400).send(err.stack);
+                } else {
+                    console.log(result);
+                    res.send(result);
+                }
+            });
+            break;
+        
+        case "getAllDiets":
+            pool.query(queries.query.get_all_diets, (err, result) => {
+                if (err) {
+                    res.status(400).send(err.stack);
                 } else {
                     console.log(result);
                     res.send(result);

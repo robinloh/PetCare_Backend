@@ -32,8 +32,12 @@ queries.query = {
     // Services related
     get_all_services: 'SELECT * FROM Services',
     
-    // isOfSpecies related
+    // Species related
+    get_all_species: 'SELECT * FROM Species',
     add_isofspecies: 'INSERT INTO isofspecies VALUES($1, $2)', // [pid, speciesName]
+
+    // Breed related
+    get_all_breeds: 'SELECT breedname FROM Breeds WHERE speciesname = $1', // [breedName]
 
     // PetBreed related
     add_petbreed: 'INSERT INTO petbreed VALUES($1, $2)', // [pid, breedName]
@@ -41,6 +45,7 @@ queries.query = {
     // Diet related
     add_diet: 'INSERT INTO diets VALUES($1)', // [diet]
     add_diet_restriction: 'INSERT INTO hasDietRestrictions VALUES($1, $2)', // [pid, diet]
+    get_all_diets: 'SELECT * FROM diets',
 
     // SpecialNote related
     add_specialnote: 'INSERT INTO specialnotes VALUES($1, $2)', // [pid, specialNote]
