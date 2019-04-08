@@ -29,29 +29,35 @@ let insertTestUsers =
     'insert into petowners values(\'po@hotmail.com\');' +
     'insert into caretakers values(\'ct@hotmail.com\');';
 
-let insertSpecies = 'insert into species values (\'Dog\');' +
+let insertSpecies = 
+    'insert into species values (\'Dog\');' +
     'insert into species values (\'Cat\');';
 
-let insertBreeds = 'insert into breeds values (\'Golden Retriever\', \'Dog\');' +
+let insertBreeds = 
+    'insert into breeds values (\'Golden Retriever\', \'Dog\');' +
     'insert into breeds values (\'Corgi\', \'Dog\');' +
     'insert into breeds values (\'Husky\', \'Dog\');' +
     'insert into breeds values (\'Persian\', \'Cat\');' +
     'insert into breeds values (\'Russian Blue\', \'Cat\');';
 
-let insertDiets = 'insert into diets values (\'Vegetarian\');' +
+let insertDiets = 
+    'insert into diets values (\'Vegetarian\');' +
     'insert into diets values (\'Carnivore\');' +
     'insert into diets values (\'Gluten-free\');' +
     'insert into diets values (\'None\');';
 
-let insertStatusTypes = 'insert into StatusTypes values (\'outbidded\');' +
+let insertStatusTypes = 
+    'insert into StatusTypes values (\'outbidded\');' +
     'insert into StatusTypes values (\'current highest\');' +
     'insert into StatusTypes values (\'Won\');';
 
-let insertServicesTypes = 'insert into Services values (\'Pet Walking\');' +
+let insertServicesTypes = 
+    'insert into Services values (\'Pet Walking\');' +
     'insert into StatusTypes values (\'Pet Grooming\');' +
     'insert into StatusTypes values (\'Pet Boarding\');';
 
-let dropTables = 'drop table if exists Badges, hasBadge;' +
+let dropTables = 
+    'drop table if exists Badges, hasBadge;' +
     'drop table if exists Reviews, Transactions;' +
     'drop table if exists Bids, Availabilities, StatusTypes;' +
     'drop table if exists Wallets, Services, provideService;' +
@@ -72,7 +78,8 @@ let dropTables = 'drop table if exists Badges, hasBadge;' +
     'drop table if exists Users cascade;' +
     'drop table if exists SpecialNotes;';
 
-let createTables = 'CREATE table Users (' +
+let createTables = 
+    'CREATE table Users (' +
     'email    varchar(320) primary key,' +
     'name     varchar(255) not null,' +
     'phone    int not null,' +
