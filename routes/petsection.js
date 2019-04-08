@@ -52,7 +52,7 @@ router.post('/', function (req, res, next) {
                     console.log("\nADD PET SUCCESSFUL\n");
                     console.log(data);
 
-                    res.send("success");
+                    res.send("success " + rows[0].pid);
 
                 } catch (e) {
                     await client.query('ROLLBACK')
