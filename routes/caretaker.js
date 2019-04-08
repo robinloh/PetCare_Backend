@@ -10,45 +10,42 @@ const pool = new Pool({
 });
 
 router.post('/', function (req, res, next) {
-const data = {
-    startDate: req.body.startDate,
-    endDate: req.body.endDate,
-    email: req.body.email
-};
-console.log(data);
+    const data = {
+        reqType: req.body.post,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        email: req.body.email
+    };
+    console.log(data);
 
+    switch (reqType) {
+        case getAvailability:
+            pool.query(queries.query.get_availability, [data.email], (err, result) => {
+                if (err) {
+                    // Return Error 400 if can't get availability, shouldn't happen
+                    res.status(400).send(err.stack);
 
-/*(async () => {
-    // note: we don't try/catch this because if connecting throws an exception
-    // we don't need to dispose of the client (it will be undefined)
-    const client = await pool.connect()
+                } else {
+                    console.log(result);
+                    res.send(result);
+                }
+            });
+            break;
+        case addAvailability:
+            pool.query(queries.query.add_availability, [data.startDate, data.endDate, data.email], (err, result) => {
+                if (err) {
+                    // Return Error 400 if can't get availability, shouldn't happen
+                    res.status(400).send(err.stack);
 
-    try {
-        await client.query('BEGIN')
-        const {
-            rows
-        } = await client.query(queries.query.add_user, [data.email, "John Doe", "0", data.password])
-
-        if (data.role === 'Pet Owner') {
-            await client.query(queries.query.add_petowner, [data.email])
-        } else {
-            await client.query(queries.query.add_caretaker, [data.email])
-        }
-        await client.query('COMMIT')
-        console.log("user " + data.email + " registered");
-        res.send("success");
-    } catch (e) {
-        await client.query('ROLLBACK')
-        throw e
-    } finally {
-        client.release()
+                } else {
+                    console.log(result);
+                    res.send("Successfully added availability from " + data.startDate + " to " + data.endDate);
+                }
+            });
+            break;
     }
-})().catch(e => {
-    console.error(e.message)
-    res.status(400).send("e.message")
-})
-res.status(400).send("e.message")
-})
-*/});
+
+
+});
 
 module.exports = router;

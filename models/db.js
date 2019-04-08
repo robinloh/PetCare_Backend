@@ -44,7 +44,7 @@ let insertDiets = 'insert into diets values (\'Vegetarian\');' +
 
 let dropTables = 'drop table if exists Badges, hasBadge;' +
     'drop table if exists Reviews, Transactions;' +
-    'drop table if exists Bids, Availabilities;' +
+    'drop table if exists Bids, Availabilities, StatusTypes;' +
     'drop table if exists Wallets, Services, provideService;' +
     'drop table if exists BreedDietRestrictions, Diets cascade;' +
     'drop table if exists PetBreed;' +
@@ -118,19 +118,23 @@ let createTables = 'CREATE table Users (' +
     ');' +
 
     'create table Availabilities (' +
-    ' aid int primary key,' +
     ' email varchar(255) references Caretakers not null, ' +
     ' startDate date not null,' +
-    '  endDate date not null,' +
-    '  daysOfWeek int not null  ' +
+    '  endDate date not null' +
     ');' +
 
+    'create table StatusTypes (' +
+    'status varchar(255) primary key' +
+    ');' +
+    
     'create table Bids (' +
     'bid int primary key,' +
     'bidderEmail varchar(255) references PetOwners not null,' +
     'caretakerEmail varchar(255) references Caretakers not null,' +
     '  bidTimeStamp timestamp not null,' +
-    '  bidAmount int not null' +
+    '  bidAmount int not null,' +
+    '  dateOfService date not null,' +
+    '  status varchar(255) references StatusTypes not null' +
     ');' +
 
     'create table Services (' +

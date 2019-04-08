@@ -21,6 +21,8 @@ var caretakerRouter = require('./routes/caretaker');
 
 var addPetsRouter = require('./routes/addPets');
 
+var searchRouter = require('./routes/search');
+
 // For Local dev. CORS policy.
 app.use(cors());
 
@@ -46,6 +48,7 @@ app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/caretaker', caretakerRouter);
 app.use('/addPets', addPetsRouter);
+app.use('/search', searchRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
