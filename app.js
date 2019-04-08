@@ -19,7 +19,7 @@ var registerRouter = require('./routes/register');
 
 var caretakerRouter = require('./routes/caretaker');
 
-var addPetsRouter = require('./routes/addPets');
+var petsRouter = require('./routes/petsection');
 
 var searchRouter = require('./routes/search');
 
@@ -47,7 +47,7 @@ app.use('/index', indexRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/caretaker', caretakerRouter);
-app.use('/addPets', addPetsRouter);
+app.use('/petsection', petsRouter);
 app.use('/search', searchRouter);
 
 // catch 404 and forward to error handler

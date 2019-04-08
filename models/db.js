@@ -40,7 +40,7 @@ let insertBreeds = 'insert into breeds values (\'Golden Retriever\', \'Dog\');' 
 
 let insertDiets = 'insert into diets values (\'Vegetarian\');' +
     'insert into diets values (\'Carnivore\');' +
-    'insert into diets values (\'Gluten-Free\');' +
+    'insert into diets values (\'Gluten-free\');' +
     'insert into diets values (\'None\');';
 
 let insertStatusTypes = 'insert into StatusTypes values (\'outbidded\');' +
