@@ -67,8 +67,9 @@ let dropTables = 'drop table if exists Badges, hasBadge;' +
 let createTables = 'CREATE table Users (' +
     'email    varchar(320) primary key,' +
     'name     varchar(255) not null,' +
-    'phone    numeric(8) not null,' +
-    'password varchar not null' +
+    'phone    int not null,' +
+    'password varchar not null,' +
+    'CHECK (phone >= 80000000 AND phone <= 99999999)' +
     ');' +
 
     'create table PetOwners (' +
