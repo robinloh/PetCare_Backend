@@ -25,7 +25,7 @@ queries.query = {
     delete_availability: 'DELETE FROM Availabilities WHERE startDate = $1 && endDate = $2 && email = $3', //[startDate, endDate, email]
     
     find_services: 'SELECT email FROM Availabilities A INNER JOIN provideService S WHERE $1 > startDate AND $1 < endDate AND serviceid = $2 AND NOT EXISTS (SELECT 1 FROM Bids B WHERE A.email = B.caretakerEmail AND dateOfService = $1 AND status = "Won")', // [dateOfService, typeOfService]
-    get_work_schedule: 'SELECT DateOfService FROM Bids WHERE email = $1 and status = "Won"' //[email]
+    get_work_schedule: 'SELECT DateOfService FROM Bids WHERE email = $1 and status = "Won"', //[email]
     
     // isOfSpecies related
     add_isofspecies: 'INSERT INTO isofspecies VALUES($1, $2)',
