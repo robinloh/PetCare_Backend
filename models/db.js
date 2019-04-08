@@ -12,7 +12,7 @@ pool.on('connect', () => {
 });
 
 const createDb = () => {
-    pool.query(dropTables + createTables + insertSpecies + insertBreeds + insertTestUsers)
+    pool.query(dropTables + createTables + insertSpecies + insertBreeds + insertTestUsers + insertStatusTypes + insertServicesTypes)
         .then((res) => {
             console.log(res);
             pool.end();
@@ -42,6 +42,14 @@ let insertDiets = 'insert into diets values (\'Vegetarian\');' +
     'insert into diets values (\'Carnivore\');' +
     'insert into diets values (\'Gluten-Free\');' +
     'insert into diets values (\'None\');';
+
+let insertStatusTypes = 'insert into StatusTypes values (\'outbidded\');' +
+    'insert into StatusTypes values (\'current highest\');' +
+    'insert into StatusTypes values (\'Won\');';
+
+let insertServicesTypes = 'insert into Services values (\'Pet Walking\');' +
+    'insert into StatusTypes values (\'Pet Grooming\');' +
+    'insert into StatusTypes values (\'Pet Boarding\');';
 
 let dropTables = 'drop table if exists Badges, hasBadge;' +
     'drop table if exists Reviews, Transactions;' +
@@ -123,7 +131,8 @@ let createTables = 'CREATE table Users (' +
     'create table Availabilities (' +
     ' email varchar(255) references Caretakers not null, ' +
     ' startDate date not null,' +
-    '  endDate date not null' +
+    '  endDate date not null,' +
+    '  autoAcceptedPrice numeric(12,2) not null' +
     ');' +
 
     'create table StatusTypes (' +
@@ -131,7 +140,7 @@ let createTables = 'CREATE table Users (' +
     ');' +
     
     'create table Bids (' +
-    'bid int primary key,' +
+    'bid serial primary key,' +
     'bidderEmail varchar(255) references PetOwners not null,' +
     'caretakerEmail varchar(255) references Caretakers not null,' +
     '  bidTimeStamp timestamp not null,' +
