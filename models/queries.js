@@ -5,7 +5,7 @@ queries.query = {
     //for transactions in node, check this link: https://node-postgres.com/features/transactions
     
     // Account related
-    add_user: 'INSERT INTO Users VALUES($1, $2)', //[email, name, phone, password]
+    add_user: 'INSERT INTO Users VALUES($1, $2, $3, $4)', //[email, name, phone, password]
     add_caretaker: 'INSERT INTO Caretakers VALUES($1)', //[email]
     add_petowner: 'INSERT INTO PetOwners VALUES($1)', //[email]
     update_info: 'UPDATE Users SET name = $2, phone = $3, age = $4 WHERE email = $1', //[email, name, phone, age]
@@ -16,7 +16,7 @@ queries.query = {
     is_petowner: 'SELECT * FROM PetOwners WHERE email = $1', //[email] results will be empty if false
     
     // Pet related
-    add_pet: 'INSERT INTO Pets VALUES($1) RETURNING pid', //[name, age, speciesName, breedName] pid to be generated; speciesname and breedname selected from list
+    add_pet: 'INSERT INTO Pets VALUES($1) RETURNING pid', //[name] pid to be generated
     add_pets_owner: 'INSERT INTO OwnsPet VALUES($1, $2)', //[email, pid]
     get_pets: 'SELECT pid FROM OwnsPet WHERE email = $1', //[email]
     
@@ -28,16 +28,17 @@ queries.query = {
     get_work_schedule: 'SELECT DateOfService FROM Bids WHERE email = $1 and status = "Won"', //[email]
     
     // isOfSpecies related
-    add_isofspecies: 'INSERT INTO isofspecies VALUES($1, $2)',
+    add_isofspecies: 'INSERT INTO isofspecies VALUES($1, $2)', // [pid, speciesName]
 
     // PetBreed related
-    add_petbreed: 'INSERT INTO petbreed VALUES($1, $2)',
+    add_petbreed: 'INSERT INTO petbreed VALUES($1, $2)', // [pid, breedName]
 
     // Diet related
-    add_diet: 'INSERT INTO diets VALUES($1)',
+    add_diet: 'INSERT INTO diets VALUES($1)', // [diet]
+    add_diet_restriction: 'INSERT INTO hasDietRestrictions VALUES($1, $2)', // [pid, diet]
 
     // SpecialNote related
-    add_specialnote: 'INSERT INTO specialnotes VALUES($1, $2)',
+    add_specialnote: 'INSERT INTO specialnotes VALUES($1, $2)', // [pid, specialNote]
     
 }
 
