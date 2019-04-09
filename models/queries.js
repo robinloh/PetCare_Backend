@@ -21,7 +21,7 @@ queries.query = {
     get_pets: 'SELECT pid FROM OwnsPet WHERE email = $1', //[email]
     
     // Availability and bids related
-    add_availability: 'INSERT INTO Availabilities VALUES($1, $2, $3, $4)', //[startDate, endDate, email, autoAcceptedPrice]
+    add_availability: 'INSERT INTO Availabilities VALUES($1, $2, $3, $4) RETURNING startDate, endDate', //[startDate, endDate, email, autoAcceptedPrice]
     delete_availability: 'DELETE FROM Availabilities WHERE startDate = $1 && endDate = $2 && email = $3', //[startDate, endDate, email]
     get_availability: 'SELECT startDate, endDate FROM Availabilities WHERE email = $1', //[email]
     
