@@ -10,17 +10,16 @@ const pool = new Pool({
 });
 
 
-// Attempts to login a user
 router.post('/', function (req, res, next) {
     const data = {
         reqType:  req.body.post,
-        email:    req.body.email,
-        password: req.body.password
+        email:    req.body.email
     };
 
-    switch (reqType) {
+    switch (data.reqType) {
         case "getUserName":
             pool.query(queries.query.get_user_name, [data.email], (err, result) => {
+                
                 if (err) {
                     res.status(400).send(err.stack);
                 }
