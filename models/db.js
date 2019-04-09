@@ -202,7 +202,10 @@ let createTables =
     'create table SpecialNotes (' +
     'pid int primary key references Pets,' +
     'specialNote varchar(255)' +
-    ');';
+    ');'; +
+
+    'CREATE VIEW getUsersInfo as' +
+    'SELECT * FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email)'
 
 pool.on('remove', () => {
     console.log('CLIENT REMOVED');
