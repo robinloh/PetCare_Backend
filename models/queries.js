@@ -10,8 +10,7 @@ queries.query = {
     add_petowner: 'INSERT INTO PetOwners VALUES($1)', //[email]
     update_info: 'UPDATE Users SET name = $2, phone = $3, age = $4 WHERE email = $1', //[email, name, phone, age]
     update_password: 'UPDATE Users SET password = $2 WHERE email = $1', //[email, password]
-    login: 'SELECT u.email, CASE WHEN po.email IS NULL THEN false ELSE true END AS PetOwner, CASE WHEN ct.email IS NULL THEN false ELSE true END AS CareTaker FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email) WHERE u.email = $1 AND u.password = $2', // [email,password]
-    
+    login: 'SELECT * FROM getUsersInfo WHERE u.email = $1 AND u.password = $2', // [email,password]
     is_caretaker: 'SELECT * FROM Caretakers WHERE email = $1', //[email] results will be empty if false
     is_petowner: 'SELECT * FROM PetOwners WHERE email = $1', //[email] results will be empty if false
     
