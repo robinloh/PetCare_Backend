@@ -6,6 +6,7 @@ queries.query = {
     
     // Account related
     add_user: 'INSERT INTO Users VALUES($1, $2, $3, $4)', //[email, name, phone, password]
+    get_user_name: 'SELECT name FROM Users WHERE email = $1',
     add_caretaker: 'INSERT INTO Caretakers VALUES($1)', //[email]
     add_petowner: 'INSERT INTO PetOwners VALUES($1)', //[email]
     update_info: 'UPDATE Users SET name = $2, phone = $3, age = $4 WHERE email = $1', //[email, name, phone, age]
@@ -17,9 +18,9 @@ queries.query = {
     
     // Pet related
     add_pet: 'INSERT INTO Pets VALUES($1) RETURNING pid', //[name] pid to be generated
-    delete_pet: 'DELETE FROM Pets WHERE name = $1',
+    delete_pet: 'DELETE FROM Pets WHERE pid = $1',
     add_pets_owner: 'INSERT INTO OwnsPet VALUES($1, $2)', //[email, pid]
-    get_pets: 'SELECT pid FROM OwnsPet WHERE email = $1', //[email]
+    get_all_pets_from_petowner: 'SELECT pid FROM OwnsPet WHERE email = $1', // [pid]
     
     // Availability and bids related
     add_availability: 'INSERT INTO Availabilities VALUES($1, $2, $3, $4) RETURNING startDate, endDate', //[startDate, endDate, email, autoAcceptedPrice]

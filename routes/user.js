@@ -1,0 +1,39 @@
+var express = require('express');
+var router = express.Router();
+var queries = require('../models/queries');
+
+const {
+    Pool
+} = require('pg')
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL
+});
+
+
+// Attempts to login a user
+router.post('/', function (req, res, next) {
+    const data = {
+        reqType:  req.body.post,
+        email:    req.body.email,
+        password: req.body.password
+    };
+
+    switch (reqType) {
+        case "getUserName":
+            pool.query(queries.query.get_user_name, [data.email], (err, result) => {
+                if (err) {
+                    res.status(400).send(err.stack);
+                }
+
+                if (result.rowCount == 1) {
+                    console.log(result.rows[0]);
+                    res.send(result.rows[0]);
+                } else {
+                    res.status(400).send("Duplicate user names found with the same email. Check database.");
+                }
+            });
+            break;
+    }
+});
+
+module.exports = router;
