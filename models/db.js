@@ -117,21 +117,13 @@ let createTables =
     ');' +
 
     'create table OwnsPet (' +
-<<<<<<< Updated upstream
-    'email varchar(255) references PetOwners on delete cascade,' +
-=======
     'email varchar(255) references PetOwners,' +
->>>>>>> Stashed changes
     'pid int references Pets on delete cascade,' +
     'primary key (email, pid)' +
     ');' +
 
     'create table PetBreed (' +
-<<<<<<< Updated upstream
-    'pid int references Pets primary key on delete cascade,' +
-=======
     'pid int primary key references Pets on delete cascade,' +
->>>>>>> Stashed changes
     'breedName varchar(255) references Breeds not null' +
     ');' +
 
