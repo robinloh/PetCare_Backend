@@ -57,6 +57,7 @@ let insertServicesTypes =
     'insert into StatusTypes values (\'Pet Boarding\');';
 
 let dropTables = 
+    'drop view if exists getUsersInfo;' +
     'drop table if exists Badges, hasBadge;' +
     'drop table if exists Reviews, Transactions;' +
     'drop table if exists Bids, Availabilities, StatusTypes;' +
@@ -202,10 +203,10 @@ let createTables =
     'create table SpecialNotes (' +
     'pid int primary key references Pets,' +
     'specialNote varchar(255)' +
-    ');'; +
+    ');' +
 
-    'CREATE VIEW getUsersInfo as' +
-    'SELECT u.email, CASE WHEN po.email IS NULL THEN false ELSE true END AS PetOwner, CASE WHEN ct.email IS NULL THEN false ELSE true END AS CareTaker FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email);'
+    'CREATE VIEW getUsersInfo as SELECT u.email, CASE WHEN po.email IS NULL THEN false ELSE true END AS PetOwner, CASE WHEN ct.email IS NULL THEN false ELSE true END AS CareTaker FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email);';
+
 
 pool.on('remove', () => {
     console.log('CLIENT REMOVED');
