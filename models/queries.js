@@ -10,7 +10,8 @@ queries.query = {
     add_petowner: 'INSERT INTO PetOwners VALUES($1)', //[email]
     update_info: 'UPDATE Users SET name = $2, phone = $3, age = $4 WHERE email = $1', //[email, name, phone, age]
     update_password: 'UPDATE Users SET password = $2 WHERE email = $1', //[email, password]
-    login: 'SELECT * FROM getUsersInfo WHERE u.email = $1 AND u.password = $2', // [email,password]
+    login: 'SELECT email FROM users WHERE email = $1 AND password = $2', // [email, password]
+    get_roles: 'SELECT * FROM getusersinfo WHERE email = $1',
     is_caretaker: 'SELECT * FROM Caretakers WHERE email = $1', //[email] results will be empty if false
     is_petowner: 'SELECT * FROM PetOwners WHERE email = $1', //[email] results will be empty if false
     
