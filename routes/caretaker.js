@@ -36,7 +36,6 @@ router.post('/', function (req, res, next) {
         case "getWorkDates":
             pool.query(queries.query.get_work_schedule, [data.email], (err, result) => {
                 if (err) {
-                    // Return Error 400 if can't get availability, shouldn't happen
                     res.status(400).send(err.stack);
 
                 } else {
@@ -48,7 +47,6 @@ router.post('/', function (req, res, next) {
         case "addAvailability":
             pool.query(queries.query.add_availability, [data.startDate, data.endDate, data.email, data.autoAcceptedPrice], (err, result) => {
                 if (err) {
-                    // Return Error 400 if can't get availability, shouldn't happen
                     res.status(400).send(err.stack);
 
                 } else {
@@ -60,7 +58,17 @@ router.post('/', function (req, res, next) {
         case "getAllService":
             pool.query(queries.query.get_all_services, (err, result) => {
                 if (err) {
-                    // Return Error 400 if can't get availability, shouldn't happen
+                    res.status(400).send(err.stack);
+
+                } else {
+                    console.log(result);
+                    res.send(result);
+                }
+            });
+            break;
+        case "getMyService":
+            pool.query(queries.query.get_provided_services, [data.email], (err, result) => {
+                if (err) {
                     res.status(400).send(err.stack);
 
                 } else {
