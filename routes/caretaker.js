@@ -9,13 +9,15 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
+
 router.post('/', function (req, res, next) {
     const data = {
         reqType: req.body.post,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
         email: req.body.email,
-        autoAcceptedPrice: req.body.minAutoAcceptPrice
+        autoAcceptedPrice: req.body.minAutoAcceptPrice,
+        services: req.body.service
     };
     console.log(data);
 
@@ -25,7 +27,7 @@ router.post('/', function (req, res, next) {
             pool.query(queries.query.get_availability, [data.email], (err, result) => {
                 if (err) {
                     // Return Error 400 if can't get availability, shouldn't happen
-                    res.status(400).send(err.stack);
+                    res.status(400).send(err.message);
 
                 } else {
                     console.log(result);
@@ -36,7 +38,7 @@ router.post('/', function (req, res, next) {
         case "getWorkDates":
             pool.query(queries.query.get_work_schedule, [data.email], (err, result) => {
                 if (err) {
-                    res.status(400).send(err.stack);
+                    res.status(400).send(err.message);
 
                 } else {
                     console.log(result);
@@ -47,7 +49,7 @@ router.post('/', function (req, res, next) {
         case "addAvailability":
             pool.query(queries.query.add_availability, [data.startDate, data.endDate, data.email, data.autoAcceptedPrice], (err, result) => {
                 if (err) {
-                    res.status(400).send(err.stack);
+                    res.status(400).send(err.message);
 
                 } else {
                     console.log(result);
@@ -58,7 +60,7 @@ router.post('/', function (req, res, next) {
         case "getAllService":
             pool.query(queries.query.get_all_services, (err, result) => {
                 if (err) {
-                    res.status(400).send(err.stack);
+                    res.status(400).send(err.message);
 
                 } else {
                     console.log(result);
@@ -69,13 +71,59 @@ router.post('/', function (req, res, next) {
         case "getMyService":
             pool.query(queries.query.get_provided_services, [data.email], (err, result) => {
                 if (err) {
-                    res.status(400).send(err.stack);
+                    res.status(400).send(err.message);
 
                 } else {
                     console.log(result);
                     res.send(result);
                 }
             });
+            break;
+        case "addService":
+            (async () => {
+                const client = await pool.connect()
+                try {
+                    await client.query('BEGIN')
+                    //for loop to insert all new services
+                    for (const service of data.services) {
+                        await client.query(queries.query.add_service, [data.email, service])
+                    }
+                    await client.query('COMMIT')
+                    const { result } = await client.query(queries.query.get_provided_services, [data.email])
+                    console.log(result);
+
+                    res.send(result);
+                } catch (e) {
+                    await client.query('ROLLBACK')
+                    throw e
+                } finally {
+                    client.release()
+                }
+            })().catch(e => {console.error(e.message)
+                res.status(400).send(e.message)})
+            break;
+        case "removeService":
+            (async () => {
+                const client = await pool.connect()
+                try {
+                    await client.query('BEGIN')
+                    //for loop to insert all new services
+                    for (const service of data.services) {
+                        await client.query(queries.query.remove_service, [data.email, service])
+                    }
+                    await client.query('COMMIT')
+                    const { result } = await client.query(queries.query.get_provided_services, [data.email])
+                    console.log(result);
+
+                    res.send(result);
+                } catch (e) {
+                    await client.query('ROLLBACK')
+                    throw e
+                } finally {
+                    client.release()
+                }
+            })().catch(e => {console.error(e.message)
+                res.status(400).send(e.message)})
             break;
     }
 

@@ -33,6 +33,8 @@ queries.query = {
     // Services related
     get_all_services: 'SELECT * FROM Services',
     get_provided_services: 'SELECT serviceid FROM provideService WHERE email = $1', //[caretakerEmail]
+    add_service: 'INSERT INTO provideService VALUES ($2, $1)', //[caretakerEmail, serviceid]
+    remove_service: 'DELETE FROM provideService WHERE email = $1 and serviceid = $2', //[caretakerEmail, serviceid]
     
     // Species related
     get_all_species: 'SELECT * FROM Species',
