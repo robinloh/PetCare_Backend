@@ -75,6 +75,17 @@ router.post('/', function (req, res, next) {
                 }
             });
             break;
+        
+        case "getAllPets":
+            pool.query(queries.query.get_all_pets, [data.email], (err, result) => {
+                if (err) {
+                    res.status(400).send(err.stack);
+                } else {
+                    console.log(result);
+                    res.send(result);
+                }
+            });
+            break;
 
         case "getAllSpecies":
             pool.query(queries.query.get_all_species, (err, result) => {
