@@ -6,6 +6,7 @@ queries.query = {
     
     // Account related
     add_user: 'INSERT INTO Users VALUES($1, $2, $3, $4)', //[email, name, phone, password]
+    get_user_name: 'SELECT name FROM Users WHERE email = $1',
     add_caretaker: 'INSERT INTO Caretakers VALUES($1)', //[email]
     add_petowner: 'INSERT INTO PetOwners VALUES($1)', //[email]
     update_info: 'UPDATE Users SET name = $2, phone = $3, age = $4 WHERE email = $1', //[email, name, phone, age]
