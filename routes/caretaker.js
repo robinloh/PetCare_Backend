@@ -14,7 +14,8 @@ router.post('/', function (req, res, next) {
         reqType: req.body.post,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
-        email: req.body.email
+        email: req.body.email,
+        autoAcceptedPrice: req.body.minAutoAcceptPrice
     };
     console.log(data);
 
@@ -45,14 +46,14 @@ router.post('/', function (req, res, next) {
             });
             break;    
         case "addAvailability":
-            pool.query(queries.query.add_availability, [data.startDate, data.endDate, data.email], (err, result) => {
+            pool.query(queries.query.add_availability, [data.startDate, data.endDate, data.email, data.autoAcceptedPrice], (err, result) => {
                 if (err) {
                     // Return Error 400 if can't get availability, shouldn't happen
                     res.status(400).send(err.stack);
 
                 } else {
                     console.log(result);
-                    res.send("Successfully added availability from " + data.startDate + " to " + data.endDate);
+                    res.send(result.rows);
                 }
             });
             break;
