@@ -17,7 +17,7 @@ var registerRouter   = require('./routes/register');
 var caretakerRouter  = require('./routes/caretaker');
 var petsRouter       = require('./routes/petsection');
 var searchRouter     = require('./routes/search');
-var userRouter       = require('/routes/user');
+var userRouter       = require('./routes/user');
 
 // For Local dev. CORS policy.
 app.use(cors());
