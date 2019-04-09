@@ -32,28 +32,29 @@ router.post('/', function (req, res, next) {
 
                     // Pets table
                     const {rows} = await client.query(queries.query.add_pet, [data.name])
+                    data.pid = rows[0].pid;
 
                     // IsOfSpecies table
-                    await client.query(queries.query.add_isofspecies, [rows[0].pid, data.speciesName])
+                    await client.query(queries.query.add_isofspecies, [data.pid, data.speciesName])
 
                     // PetBreed table
-                    await client.query(queries.query.add_petbreed, [rows[0].pid, data.breedName])
+                    await client.query(queries.query.add_petbreed, [data.pid, data.breedName])
 
                     // SpecialNotes table
-                    await client.query(queries.query.add_specialnote, [rows[0].pid, data.specialNote])
+                    await client.query(queries.query.add_specialnote, [data.pid, data.specialNote])
 
                     // OwnsPet table
-                    await client.query(queries.query.add_pets_owner, [data.email, rows[0].pid])
+                    await client.query(queries.query.add_pets_owner, [data.email, data.pid])
 
                     // HasDietRestrictions table
-                    await client.query(queries.query.add_diet_restriction, [rows[0].pid, data.diet])
+                    await client.query(queries.query.add_diet_restriction, [data.pid, data.diet])
 
                     await client.query('COMMIT')
 
                     console.log("\nADD PET SUCCESSFUL\n");
                     console.log(data);
 
-                    res.send("success " + rows[0].pid);
+                    res.send("success " + data.pid);
 
                 } catch (e) {
                     await client.query('ROLLBACK')
@@ -77,7 +78,7 @@ router.post('/', function (req, res, next) {
             break;
         
         case "getAllPets":
-            pool.query(queries.query.get_all_pets, [data.email], (err, result) => {
+            pool.query(queries.query.get_all_pets_from_petowner, [data.email], (err, result) => {
                 if (err) {
                     res.status(400).send(err.stack);
                 } else {
