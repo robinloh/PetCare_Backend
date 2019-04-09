@@ -205,7 +205,7 @@ let createTables =
     ');'; +
 
     'CREATE VIEW getUsersInfo as' +
-    'SELECT * FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email)'
+    'SELECT u.email, CASE WHEN po.email IS NULL THEN false ELSE true END AS PetOwner, CASE WHEN ct.email IS NULL THEN false ELSE true END AS CareTaker FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email);'
 
 pool.on('remove', () => {
     console.log('CLIENT REMOVED');
