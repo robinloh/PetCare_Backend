@@ -13,6 +13,7 @@ router.post('/', function (req, res, next) {
 
     const data = {
         reqType:     req.body.post,
+        pid:         req.body.pid,
         email:       req.body.email,
         diet:        req.body.diet,
         name:        req.body.name,
@@ -65,7 +66,7 @@ router.post('/', function (req, res, next) {
             break;
 
         case "deletePets":
-            pool.query(queries.query.delete_pet, [data.name], (err, result) => {
+            pool.query(queries.query.delete_pet, [data.pid], (err, result) => {
                 if (err) {
                     res.status(400).send(err.stack);
                 } else {

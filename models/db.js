@@ -111,19 +111,19 @@ let createTables =
     ');' +
 
     'create table isOfSpecies (' +
-    'pid int references Pets,' +
+    'pid int references Pets on delete cascade,' +
     'speciesName varchar(255) references Species,' +
     'primary key (pid, speciesName)' +
     ');' +
 
     'create table OwnsPet (' +
-    'email varchar(255) references PetOwners,' +
-    'pid int references Pets,' +
+    'email varchar(255) references PetOwners on delete cascade,' +
+    'pid int references Pets on delete cascade,' +
     'primary key (email, pid)' +
     ');' +
 
     'create table PetBreed (' +
-    'pid int references Pets primary key,' +
+    'pid int references Pets primary key on delete cascade,' +
     'breedName varchar(255) references Breeds not null' +
     ');' +
 
@@ -132,7 +132,7 @@ let createTables =
     ');' +
 
     'create table HasDietRestrictions (' +
-    'pid int references Pets,' +
+    'pid int references Pets on delete cascade,' +
     'diet varchar(255) references Diets,' +
     'primary key (pid, diet)' +
     ');' +
@@ -201,7 +201,7 @@ let createTables =
     ');' +
     
     'create table SpecialNotes (' +
-    'pid int primary key references Pets,' +
+    'pid int primary key references Pets on delete cascade,' +
     'specialNote varchar(255)' +
     ');' +
 
