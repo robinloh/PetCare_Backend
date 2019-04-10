@@ -61,6 +61,11 @@ queries.query = {
     create_wallet: 'INSERT INTO wallets VALUES($1, $2)', //[userEmail, walletamt]
     get_wallet: 'SELECT * FROM wallets where email = $1', // [userEmail]
     update_wallet_amt: 'UPDATE wallets SET walletamt = $1 WHERE email = $2', // [walletamt, userEmail
+
+    // Reviews
+    // Reviews table: (rid, review, email, rating, byuser)
+    create_review: 'INSERT INTO reviews VALUES($1, $2, $3, $4, $5)', // [bidId, review, caretakerEmail, rating, petownerEmail]
+    get_review: 'SELECT * FROM reviews where email = $1', // [caretakerEmail]
 }
 
 module.exports = queries
