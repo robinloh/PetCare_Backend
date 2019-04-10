@@ -67,13 +67,17 @@ router.post('/', function (req, res, next) {
             break;
 
         case "deletePets":
-            pool.query(queries.query.delete_pet, [data.pid], (err, result) => {
+            pool.query(queries.query.delete_pet, [data.pid], (err, result1) => {
                 if (err) {
                     res.status(400).send(err.stack);
-                } else {
-                    console.log(result);
-                    res.send(result);
                 }
+                pool.query(queries.query.get_all_pets_from_petowner, [data.email], (err, result2) => {
+                    if (err) {
+                        res.status(400).send(err.stack);
+                    }
+                    console.log(result2);
+                    res.send(result2);
+                });
             });
             break;
         
