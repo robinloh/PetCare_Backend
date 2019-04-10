@@ -39,7 +39,10 @@ router.post('/', function (req, res, next) {
                 await client.query(queries.query.add_caretaker, [data.email]);
             }
 
-            await client.query('COMMIT');
+            // Add default badge to user
+            await client.query(queries.query.add_default_badge_to_user, [data.email])
+
+            await client.query('COMMIT')
             console.log("user " + data.email + " registered");
             res.send("success");
         } catch (e) {

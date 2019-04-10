@@ -12,7 +12,7 @@ pool.on('connect', () => {
 });
 
 const createDb = () => {
-    pool.query(dropTables + createTables + insertSpecies + insertBreeds + insertDiets + insertTestUsers + insertStatusTypes + insertServicesTypes)
+    pool.query(dropTables + createTables + insertSpecies + insertBreeds + insertDiets + insertTestUsers + insertStatusTypes + insertServicesTypes + insertBadgesTypes)
         .then((res) => {
             console.log(res);
             pool.end();
@@ -30,6 +30,8 @@ let insertTestUsers =
     'insert into caretakers values(\'ct@hotmail.com\');' +
     'insert into wallets values(\'po@hotmail.com\', 0);' +
     'insert into wallets values(\'ct@hotmail.com\', 0);'; 
+    'insert into hasBadge values(\'Gold\', \'po@hotmail.com\');' +
+    'insert into hasBadge values(\'Silver\', \'ct@hotmail.com\');';
 
 let insertSpecies = 
     'insert into species values (\'Dog\');' +
@@ -57,6 +59,12 @@ let insertServicesTypes =
     'insert into Services values (\'Pet Walking\');' +
     'insert into StatusTypes values (\'Pet Grooming\');' +
     'insert into StatusTypes values (\'Pet Boarding\');';
+
+let insertBadgesTypes =
+    'insert into Badges values (\'Gold\', \'Gold Badge - Rewarded for helping 30 pet owners\');' +
+    'insert into Badges values (\'Silver\', \'Silver Badge - Rewarded for helping 20 pet owners\');' +
+    'insert into Badges values (\'Bronze\', \'Bronze Badge - Rewarded for helping 10 pet owners\');' +
+    'insert into Badges values (\'None\', \'None - Earn a badge by helping more pets!\');';
 
 let dropTables = 
     'drop view if exists getUsersInfo;' +
