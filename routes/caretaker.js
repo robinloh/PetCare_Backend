@@ -21,7 +21,17 @@ router.post('/', function (req, res, next) {
     };
     console.log(data);
 
-    //request types: getAvailability:previously added availabilities(input: email output: startdate, enddate, price) , getWorkDates: get all confirmed bids (input: email output: DateOfService, petownerEmail, price), addAvailability: add avail(input: startdate, enddate, minAutoAcceptPrice, email output: startdate, enddate(?)) getAllService: get all available types service(input: nothing(?) output: all services), getMyService: get my provided service(input: email output: all provided service(?), addService: add service(input: array of services(?) output: all provided service(?), removeService: remove service (input: array of services(?) output: all provided service(?)), getBids: get all available bid dates and current highest bid(input: email output: dates, current highest bid), acceptBid: accept current highest bid of a specific day(input: caretakerEmail, dateOfService output: petownerEmail, dateOfService, Price?)
+    //request types: getAvailability:previously added availabilities(input: email output: startdate, enddate, price)
+    //getWorkDates: get all confirmed bids (input: email output: DateOfService, petownerEmail, price)
+    //addAvailability: add avail(input: startdate, enddate, minAutoAcceptPrice, email output: startdate, enddate(?)) 
+    //getAllService: get all available types service(input: nothing(?) output: all services)
+    //getMyService: get my provided service(input: email output: all provided service(?)
+    //addService: add service(input: array of services(?) output: all provided service(?)
+    //removeService: remove service (input: array of services(?) output: all provided service(?))
+    //getAvgRating: get avg rating for caretaker (input: caretakerEmail output: avg rating)
+    //getBids: get all available bid dates and current highest bid(input: email output: dates, current highest bid)
+    //acceptBid: accept current highest bid of a specific day(input: caretakerEmail, dateOfService output: petownerEmail, dateOfService, Price?)
+
     switch (data.reqType) {
         case "getAvailability":
             pool.query(queries.query.get_availability, [data.email], (err, result) => {
