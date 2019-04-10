@@ -16,7 +16,7 @@ router.post('/', function (req, res, next) {
         startDate: req.body.startDate,
         endDate: req.body.endDate,
         email: req.body.email,
-        autoAcceptedPrice: req.body.minAutoAcceptPrice,
+        autoAcceptedPrice: req.body.autoAcceptedPrice,
         services: req.body.service
     };
     console.log(data);
