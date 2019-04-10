@@ -57,6 +57,10 @@ queries.query = {
     // Rating related
     add_avg_rating: 'SELECT TO_CHAR(AVG(rating), \'FM999999999.00\') AS avgrating FROM reviews WHERE email = $1;', //[caretakerEmail]
     
+    // Badge related
+    add_default_badge_to_user: 'INSERT into hasBadge VALUES(\'None\', $1)', // [email]
+    get_badge: 'SELECT badge FROM hasBadge WHERE email = $1',
+    
     // Wallet
     create_wallet: 'INSERT INTO wallets VALUES($1, $2)', //[userEmail, walletamt]
     get_wallet: 'SELECT * FROM wallets where email = $1', // [userEmail]

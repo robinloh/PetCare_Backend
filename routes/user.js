@@ -17,6 +17,7 @@ router.post('/', function (req, res, next) {
     };
 
     switch (data.reqType) {
+
         case "getUserName":
             pool.query(queries.query.get_user_name, [data.email], (err, result) => {
                 
@@ -32,6 +33,19 @@ router.post('/', function (req, res, next) {
                 }
             });
             break;
+
+        case "getBadge":
+
+            pool.query(queries.query.get_badge, [data.email], (err, result) => {
+                
+                if (err) {
+                    res.status(400).send(err.stack);
+                }
+
+                console.log(result.rows[0]);
+                res.send(result.rows[0]);
+            });
+        
     }
 });
 
