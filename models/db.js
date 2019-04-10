@@ -70,6 +70,8 @@ let insertBadgesTypes =
 
 let dropTables = 
     'drop view if exists getUsersInfo;' +
+    'drop view if exists getPetsInfo;' +
+    'drop table if exists Admins;' +
     'drop table if exists Badges, hasBadge;' +
     'drop table if exists Reviews, Transactions;' +
     'drop table if exists Bids, Availabilities, StatusTypes;' +
