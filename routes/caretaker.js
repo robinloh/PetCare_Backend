@@ -125,6 +125,17 @@ router.post('/', function (req, res, next) {
             })().catch(e => {console.error(e.message)
                 res.status(400).send(e.message)})
             break;
+        case "getAvgRating":
+            pool.query(queries.query.get_avg_rating, [data.email], (err, result) => {
+                if (err) {
+                    res.status(400).send(err.message);
+
+                } else {
+                    console.log(result);
+                    res.send(result.rows);
+                }
+            });
+            break;
     }
 
 

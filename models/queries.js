@@ -54,6 +54,9 @@ queries.query = {
     // SpecialNote related
     add_specialnote: 'INSERT INTO specialnotes VALUES($1, $2)', // [pid, specialNote]
 
+    // Rating related
+    add_avg_rating: 'SELECT TO_CHAR(AVG(rating), \'FM999999999.00\') AS avgrating FROM reviews WHERE email = $1;', //[caretakerEmail]
+    
     // Wallet
     create_wallet: 'INSERT INTO wallets VALUES($1, $2)', //[userEmail, walletamt]
     get_wallet: 'SELECT * FROM wallets where email = $1', // [userEmail]
