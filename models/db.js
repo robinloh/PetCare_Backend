@@ -157,7 +157,8 @@ let createTables =
     ' email varchar(255) references Caretakers not null, ' +
     ' startDate date not null,' +
     '  endDate date not null,' +
-    '  autoAcceptedPrice numeric(12,2) not null' +
+    '  autoAcceptedPrice numeric(12,2) not null,' +
+    'primary key (email, startDate, endDate)' +
     ');' +
 
     'create table StatusTypes (' +
