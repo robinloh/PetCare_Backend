@@ -59,7 +59,7 @@ queries.query = {
     
     // Badge related
     add_default_badge_to_user: 'INSERT into hasBadge VALUES(\'None\', $1)', // [email]
-    get_badge: 'SELECT badge FROM hasBadge WHERE email = $1',
+    get_badge: 'SELECT * FROM hasBadge WHERE email = $1',
     
     // Wallet
     create_wallet: 'INSERT INTO wallets VALUES($1, $2)', //[userEmail, walletamt]
