@@ -27,7 +27,9 @@ let insertTestUsers =
     'insert into users values(\'po@hotmail.com\', \'PetOwnerAdmin\', 99999999, \'12345678\');' +
     'insert into users values(\'ct@hotmail.com\', \'CareTakerAdmin\', 88888888, \'87654321\');' +
     'insert into petowners values(\'po@hotmail.com\');' +
-    'insert into caretakers values(\'ct@hotmail.com\');';
+    'insert into caretakers values(\'ct@hotmail.com\');' +
+    'insert into wallets values(\'po@hotmail.com\', 0);' +
+    'insert into wallets values(\'ct@hotmail.com\', 0);'; 
 
 let insertSpecies = 
     'insert into species values (\'Dog\');' +
