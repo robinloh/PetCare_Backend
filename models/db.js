@@ -24,10 +24,12 @@ const createDb = () => {
 }
 
 let insertTestUsers =
-    'insert into users values(\'po@hotmail.com\', \'PetOwnerAdmin\', 99999999, \'12345678\');' +
-    'insert into users values(\'ct@hotmail.com\', \'CareTakerAdmin\', 88888888, \'87654321\');' +
+    'insert into users values(\'po@hotmail.com\', \'PetOwner1\', 99999999, \'12345678\');' +
+    'insert into users values(\'ct@hotmail.com\', \'CareTaker1\', 88888888, \'87654321\');' +
+    'insert into users values(\'admin@gmail.com\', \'Admin\', 91234567, \'cs2102\');' +
     'insert into petowners values(\'po@hotmail.com\');' +
     'insert into caretakers values(\'ct@hotmail.com\');' +
+    'insert into admins values(\'admin@gmail.com\');' +
     'insert into wallets values(\'po@hotmail.com\', 0);' +
     'insert into wallets values(\'ct@hotmail.com\', 0);' +
     'insert into hasBadge values(\'Gold\', \'po@hotmail.com\');' +
@@ -61,9 +63,9 @@ let insertServicesTypes =
     'insert into StatusTypes values (\'Pet Boarding\');';
 
 let insertBadgesTypes =
-    'insert into Badges values (\'Gold\', \'Gold Badge - Rewarded for helping 30 pet owners\');' +
-    'insert into Badges values (\'Silver\', \'Silver Badge - Rewarded for helping 20 pet owners\');' +
-    'insert into Badges values (\'Bronze\', \'Bronze Badge - Rewarded for helping 10 pet owners\');' +
+    'insert into Badges values (\'Gold\', \'Gold Badge - Congratulations! You have attained the highest badge\');' +
+    'insert into Badges values (\'Silver\', \'Silver Badge - Aim for the gold badge!\');' +
+    'insert into Badges values (\'Bronze\', \'Bronze Badge - Aim for the silver badge!\');' +
     'insert into Badges values (\'None\', \'None - Earn a badge by helping more pets!\');';
 
 let dropTables = 
@@ -103,6 +105,10 @@ let createTables =
     ');' +
 
     'create table Caretakers (' +
+    'email varchar(320) primary key references Users on delete cascade' +
+    ');' +
+
+    'create table Admins (' +
     'email varchar(320) primary key references Users on delete cascade' +
     ');' +
 
