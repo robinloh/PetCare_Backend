@@ -215,7 +215,10 @@ let createTables =
     'specialNote varchar(255)' +
     ');' +
 
-    'CREATE VIEW getUsersInfo as SELECT u.email AS email, CASE WHEN po.email IS NULL THEN false ELSE true END AS PetOwner, CASE WHEN ct.email IS NULL THEN false ELSE true END AS CareTaker FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email);';
+    'CREATE VIEW getUsersInfo as SELECT u.email AS email, CASE WHEN po.email IS NULL THEN false ELSE true END AS PetOwner, CASE WHEN ct.email IS NULL THEN false ELSE true END AS CareTaker FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email);' +
+    
+    'create view getPetsInfo as SELECT pets.name, petBreed.breedName, isofspecies.speciesname, hasdietrestrictions.diet, specialnotes.specialnote FROM pets LEFT JOIN petBreed ON pets.pid = petBreed.pid LEFT JOIN isofspecies on pets.pid = isofspecies.pid LEFT join hasdietrestrictions on PETS.PID = hasdietrestrictions.pid left join specialnotes on pets.pid = specialnotes.pid;'
+    ;
 
 
 pool.on('remove', () => {
