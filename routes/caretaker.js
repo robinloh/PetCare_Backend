@@ -15,6 +15,7 @@ router.post('/', function (req, res, next) {
         reqType: req.body.post,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
+        dateToRemove: req.body.dateToRemove,
         email: req.body.email,
         autoAcceptedPrice: req.body.autoAcceptedPrice,
         services: req.body.service
@@ -41,8 +42,8 @@ router.post('/', function (req, res, next) {
                     res.status(400).send(err.message);
 
                 } else {
-                    console.log(result);
-                    res.send(result);
+                    console.log(result.rows);
+                    res.send(result.rows);
                 }
             });
             break;
@@ -52,36 +53,40 @@ router.post('/', function (req, res, next) {
                     res.status(400).send(err.message);
 
                 } else {
-                    console.log(result);
-                    res.send(result);
+                    console.log(result.rows);
+                    res.send(result.rows);
                 }
             });
             break;    
         case "addAvailability":
-            pool.query(queries.query.add_availability, [data.email, data.startDate, data.endDate, data.autoAcceptedPrice], (err, result) => {
-                if (err) {
-                    res.status(400).send(err.message);
-
-                } else {
-                    console.log(result);
-                    res.send(result.rows);
+            (async () => {
+                const client = await pool.connect()
+                try {
+                    await client.query('BEGIN')
+                    await client.query(queries.query.add_availability, [data.email, data.startDate, data.endDate, data.autoAcceptedPrice])
+                    await client.query('COMMIT')
+                    const results = await client.query(queries.query.get_availability, [data.email])
+                    console.log(results.rows);
+                    res.send(results.rows);
+                } catch (e) {
+                    await client.query('ROLLBACK')
+                    throw e
+                } finally {
+                    client.release()
                 }
-            });
+            })().catch(e => {console.error(e.message)
+                res.status(400).send(e.message)})
             break;
         case "removeAvailabilities":
             (async () => {
                 const client = await pool.connect()
                 try {
                     await client.query('BEGIN')
-                    //for loop to insert all new services
-                    for (const service of data.services) {
-                        await client.query(queries.query.add_service, [data.email, service])
-                    }
+                    await client.query(queries.query.delete_availability, [data.email, data.dateToRemove])
                     await client.query('COMMIT')
-                    const { result } = await client.query(queries.query.get_provided_services, [data.email])
-                    console.log(result);
-
-                    res.send(result);
+                    const result = await client.query(queries.query.get_availability, [data.email])
+                    console.log(result.rows);
+                    res.send(result.rows);
                 } catch (e) {
                     await client.query('ROLLBACK')
                     throw e
