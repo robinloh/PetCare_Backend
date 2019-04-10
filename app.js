@@ -18,6 +18,7 @@ var caretakerRouter  = require('./routes/caretaker');
 var petsRouter       = require('./routes/petsection');
 var searchRouter     = require('./routes/search');
 var userRouter       = require('./routes/user');
+var walletRouter     = require('./routes/wallet');
 
 // For Local dev. CORS policy.
 app.use(cors());
@@ -45,6 +46,8 @@ app.use('/caretaker', caretakerRouter);
 app.use('/petsection', petsRouter);
 app.use('/search', searchRouter);
 app.use('/user', userRouter);
+app.use('/wallet', walletRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
