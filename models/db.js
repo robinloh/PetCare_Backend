@@ -29,7 +29,7 @@ let insertTestUsers =
     'insert into petowners values(\'po@hotmail.com\');' +
     'insert into caretakers values(\'ct@hotmail.com\');' +
     'insert into wallets values(\'po@hotmail.com\', 0);' +
-    'insert into wallets values(\'ct@hotmail.com\', 0);'; 
+    'insert into wallets values(\'ct@hotmail.com\', 0);' +
     'insert into hasBadge values(\'Gold\', \'po@hotmail.com\');' +
     'insert into hasBadge values(\'Silver\', \'ct@hotmail.com\');';
 
