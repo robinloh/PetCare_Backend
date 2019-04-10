@@ -226,8 +226,13 @@ let createTables =
 
     'CREATE VIEW getUsersInfo as SELECT u.email AS email, CASE WHEN po.email IS NULL THEN false ELSE true END AS PetOwner, CASE WHEN ct.email IS NULL THEN false ELSE true END AS CareTaker FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email);' +
     
-    'create view getPetsInfo as SELECT pets.name, petBreed.breedName, isofspecies.speciesname, hasdietrestrictions.diet, specialnotes.specialnote FROM pets LEFT JOIN petBreed ON pets.pid = petBreed.pid LEFT JOIN isofspecies on pets.pid = isofspecies.pid LEFT join hasdietrestrictions on PETS.PID = hasdietrestrictions.pid left join specialnotes on pets.pid = specialnotes.pid;'
+    'create view getPetsInfo as SELECT pets.name, petBreed.breedName, isofspecies.speciesname, hasdietrestrictions.diet, specialnotes.specialnote FROM pets LEFT JOIN petBreed ON pets.pid = petBreed.pid LEFT JOIN isofspecies on pets.pid = isofspecies.pid LEFT join hasdietrestrictions on PETS.PID = hasdietrestrictions.pid left join specialnotes on pets.pid = specialnotes.pid;' +
+    
+    'create or replace procedure removeAvailability(ctEmail varchar(255), dateToRemove DATE) language plpgsql as $$ declare procStartDate DATE; procEndDate DATE; price numeric(12,2); begin select startdate, enddate, autoAcceptedPrice into procStartDate, procEndDate, price from availabilities where ctEmail = email and dateToRemove between startdate and ENDDATE; if procStartDate = procEndDate then delete from availabilities where ctEmail = email and startdate = dateToRemove; elseif procStartDate = dateToRemove then update availabilities set startdate = dateToRemove + 1 where ctEmail = email and startdate = dateToRemove; elseif procEndDate = dateToRemove then update availabilities set enddate = dateToRemove - 1 where ctEmail = email and enddate = dateToRemove; elseif procStartDate <> procEndDate then delete from availabilities where ctEmail = email and startdate = procStartDate; insert into availabilities values (ctEmail, procStartDate, dateToRemove - 1, price); insert into availabilities values (ctEmail, dateToRemove + 1, procEndDate, price); end if; commit; end $$;'
+    
     ;
+
+
 
 
 pool.on('remove', () => {

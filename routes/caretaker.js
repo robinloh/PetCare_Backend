@@ -21,9 +21,10 @@ router.post('/', function (req, res, next) {
     };
     console.log(data);
 
-    //request types: getAvailability:previously added availabilities(input: email output: startdate, enddate, price)
+    //request types: getAvailability:previously added availabilities(input: email output: {startdate, enddate, price})
     //getWorkDates: get all confirmed bids (input: email output: DateOfService, petownerEmail, price)
-    //addAvailability: add avail(input: startdate, enddate, minAutoAcceptPrice, email output: startdate, enddate(?)) 
+    //addAvailability: add avail(input: startdate, enddate, minAutoAcceptPrice, email output: startdate, enddate(?))
+    //removeAvailabilities: remove availabilities (intput: email, {date(yyyy-mm-dd format)} output: {startdate, enddate, price})
     //getAllService: get all available types service(input: nothing(?) output: all services)
     //getMyService: get my provided service(input: email output: all provided service(?)
     //addService: add service(input: array of services(?) output: all provided service(?)
@@ -57,7 +58,7 @@ router.post('/', function (req, res, next) {
             });
             break;    
         case "addAvailability":
-            pool.query(queries.query.add_availability, [data.startDate, data.endDate, data.email, data.autoAcceptedPrice], (err, result) => {
+            pool.query(queries.query.add_availability, [data.email, data.startDate, data.endDate, data.autoAcceptedPrice], (err, result) => {
                 if (err) {
                     res.status(400).send(err.message);
 
@@ -66,6 +67,29 @@ router.post('/', function (req, res, next) {
                     res.send(result.rows);
                 }
             });
+            break;
+        case "removeAvailabilities":
+            (async () => {
+                const client = await pool.connect()
+                try {
+                    await client.query('BEGIN')
+                    //for loop to insert all new services
+                    for (const service of data.services) {
+                        await client.query(queries.query.add_service, [data.email, service])
+                    }
+                    await client.query('COMMIT')
+                    const { result } = await client.query(queries.query.get_provided_services, [data.email])
+                    console.log(result);
+
+                    res.send(result);
+                } catch (e) {
+                    await client.query('ROLLBACK')
+                    throw e
+                } finally {
+                    client.release()
+                }
+            })().catch(e => {console.error(e.message)
+                res.status(400).send(e.message)})
             break;
         case "getAllService":
             pool.query(queries.query.get_all_services, (err, result) => {

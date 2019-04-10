@@ -23,8 +23,8 @@ queries.query = {
     get_all_pets_from_petowner: 'SELECT pid FROM getPetsInfo WHERE email = $1', // [pid]
 
     // Availability and bids related
-    add_availability: 'INSERT INTO Availabilities VALUES($1, $2, $3, $4) RETURNING startDate, endDate', //[startDate, endDate, email, autoAcceptedPrice]
-    delete_availability: 'DELETE FROM Availabilities WHERE startDate = $1 && endDate = $2 && email = $3', //[startDate, endDate, email]
+    add_availability: 'INSERT INTO Availabilities VALUES($1, $2, $3, $4) RETURNING startDate, endDate', //[email, startDate, endDate, autoAcceptedPrice]
+    delete_availability: 'CALL removeAvailability($1, $2)', //[email, dateToRemove]
     get_availability: 'SELECT TO_CHAR(startDate, \'YYYY-MM-DD\') AS startDate, TO_CHAR(endDate, \'YYYY-MM-DD\') As endDate, autoAcceptedPrice FROM Availabilities WHERE email = $1', //[email]
 
     find_services: 'SELECT email FROM Availabilities A INNER JOIN provideService S WHERE $1 > startDate AND $1 < endDate AND serviceid = $2 AND NOT EXISTS (SELECT 1 FROM Bids B WHERE A.email = B.caretakerEmail AND dateOfService = $1 AND status = "Won")', // [dateOfService, typeOfService]
