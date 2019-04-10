@@ -11,11 +11,11 @@ const pool = new Pool({
 
 router.post('/', function (req, res, next) {
     const data = {
-        name:      req.body.name,
-        phone:     req.body.phone,
-        email:     req.body.email,
-        password:  req.body.password,
-        role:      req.body.role
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role
     };
     console.log(data);
 
@@ -25,26 +25,33 @@ router.post('/', function (req, res, next) {
 
         try {
             await client.query('BEGIN')
-            const {
-                rows
-            } = await client.query(queries.query.add_user, [data.email, data.name, data.phone, data.password])
 
+            // Write to User table
+            await client.query(queries.query.add_user, [data.email, data.name, data.phone, data.password]);
+
+            // Write to wallets, $0
+            await client.query(queries.query.create_wallet, [data.email, 0]);
+
+            // Write to role table
             if (data.role === 'Pet Owner') {
-                await client.query(queries.query.add_petowner, [data.email])
+                await client.query(queries.query.add_petowner, [data.email]);
             } else {
-                await client.query(queries.query.add_caretaker, [data.email])
+                await client.query(queries.query.add_caretaker, [data.email]);
             }
-            await client.query('COMMIT')
+
+            await client.query('COMMIT');
             console.log("user " + data.email + " registered");
             res.send("success");
         } catch (e) {
-            await client.query('ROLLBACK')
-            throw e
+            await client.query('ROLLBACK');
+            throw e;
         } finally {
             client.release()
         }
-    })().catch(e => {console.error(e.message)
-              res.status(400).send("e.message")})
+    })().catch(e => {
+        console.error(e.message)
+        res.status(400).send("e.message")
+    })
 });
 
 module.exports = router;
