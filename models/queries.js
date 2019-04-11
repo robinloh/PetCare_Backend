@@ -27,7 +27,7 @@ queries.query = {
     delete_availability: 'CALL removeAvailability($1, $2)', //[email, dateToRemove]
     get_availability: 'SELECT TO_CHAR(startDate, \'YYYY-MM-DD\') AS startDate, TO_CHAR(endDate, \'YYYY-MM-DD\') As endDate, autoAcceptedPrice FROM Availabilities WHERE email = $1', //[email]
 
-    find_services: 'SELECT email FROM Availabilities A INNER JOIN provideService S WHERE $1 > startDate AND $1 < endDate AND serviceid = $2 AND NOT EXISTS (SELECT 1 FROM Bids B WHERE A.email = B.caretakerEmail AND dateOfService = $1 AND status = "Won")', // [dateOfService, typeOfService]
+    find_services: 'with avgratings as (SELECT R.email, AVG(rating) AS avgrating from reviews R GROUP BY R.email) SELECT email FROM Availabilities A INNER JOIN provideService S LEFT JOIN avgRatings on R.email = A.email WHERE $1 > startDate AND $1 < endDate AND serviceid = $2 AND avgrating >= $4 AND NOT EXISTS (SELECT 1 FROM Bids B WHERE A.email = BcaretakerEmail AND dateOfService = $1 AND status = "Won" AND B.bidamount >= $3)', // [dateOfService, typeOfService]
     get_work_schedule: 'SELECT TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = \'Won\'', //[caretakerEmail]
     get_my_bids: 'SELECT bid, TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = \'current highest\'', //[caretakerEmail]
     accept_bid: 'UPDATE Bids SET status = \'Won\' WHERE bid = $1 returning caretakerEmail, DateOfService', //[bid] 
