@@ -13,14 +13,16 @@ router.post('/', function (req, res, next) {
 
     const data = {
         reqType:         req.body.post,
+        caretakername:   req.body.caretakername,   // for get completed bids
+        caretakeremail:  req.body.caretakeremail,  // for get completed bids
+        bidderemail:     req.body.bidderemail,     // for get completed bids
         email:           req.body.email,
         rating:          req.body.rating,
         bidamount:       req.body.bidamount,
         startdate:       req.body.startdate,
+        dateofservice:   req.body.dateofservice,  // for get all completed bids
         serviceid:       req.body.serviceid,
     };
-
-    console.log(data);
 
     //request types: 
     //findCaretakerService:search for caretakers on specific date(input: date, service(1 service or NULL if any service) output: caretakerEmail, dateOfService, current highest bid)
@@ -42,12 +44,28 @@ router.post('/', function (req, res, next) {
             break;
 
         case "getAllServices":
+            console.log(data.email);
             pool.query(queries.query.get_all_services, (err, result) => {
                 if (err) {
                     res.status(400).send(err.message);
 
                 } else {
                     console.log(result);
+                    res.send(result.rows);
+                }
+            });
+            break;
+
+        case "getAllCompletedServices":
+            pool.query(queries.query.get_all_completed_services, [data.email], (err, result) => {
+
+                console.log(result.rows);
+
+                if (err) {
+                    res.status(400).send(err.message);
+
+                } else {
+                    console.log(result.rows);
                     res.send(result.rows);
                 }
             });
