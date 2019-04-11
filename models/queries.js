@@ -74,7 +74,7 @@ queries.query = {
 
     // Reviews
     // Reviews table: (rid, review, email, rating, byuser)
-    create_review: 'INSERT INTO reviews VALUES($1, $2, $3, $4, $5)', // [bidId, review, caretakerEmail, rating, petownerEmail]
+    create_review: 'INSERT INTO reviews(rid, review, email, rating, byuser) VALUES($1, $2, $3, $4, $5)', // [bidId, review, caretakerEmail, rating, petownerEmail]
     get_review: 'SELECT * FROM reviews where email = $1', // [caretakerEmail]
 }
 
