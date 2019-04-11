@@ -24,17 +24,23 @@ const createDb = () => {
 }
 
 let bidsStub =
-    'insert into availabilities values(\'ct@hotmail.com\', \'2019-01-01\', \'2019-01-01\', 100.2) returning startdate, enddate;insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 100, \'2019-01-01\', \'current highest\');';
+    'insert into availabilities values(\'ct@hotmail.com\', \'2019-05-01\', \'2019-05-01\', 100.2) returning startdate, enddate;' +
+    'insert into bids values(default, \'admin@gmail.com\', \'ct@hotmail.com\', now(), 90, \'2019-05-01\', \'current highest\');' +
+    'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 70, \'2019-05-01\', \'outbidded\');';
 
 let insertTestUsers =
     'insert into users values(\'po@hotmail.com\', \'PetOwner1\', 99999999, \'12345678\');' +
     'insert into users values(\'ct@hotmail.com\', \'CareTaker1\', 88888888, \'87654321\');' +
     'insert into users values(\'admin@gmail.com\', \'Admin\', 91234567, \'cs2102\');' +
     'insert into petowners values(\'po@hotmail.com\');' +
+    'insert into petowners values(\'admin@gmail.com\');' +
+    'insert into caretakers values(\'po@hotmail.com\');' +
     'insert into caretakers values(\'ct@hotmail.com\');' +
+    'insert into caretakers values(\'admin@gmail.com\');' +
     'insert into admins values(\'admin@gmail.com\');' +
     'insert into wallets values(\'po@hotmail.com\', 0);' +
     'insert into wallets values(\'ct@hotmail.com\', 0);' +
+    'insert into wallets values(\'admin@gmail.com\', 99);' +
     'insert into hasBadge values(\'Gold\', \'po@hotmail.com\');' +
     'insert into hasBadge values(\'Silver\', \'ct@hotmail.com\');'
     // +

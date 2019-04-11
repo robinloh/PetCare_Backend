@@ -62,6 +62,19 @@ router.post('/', function (req, res, next) {
             });
             break;
 
+
+        case "getCurrentBids":
+            pool.query(queries.query.get_current_bids, [data.petownerEmail], (err, result) => {
+                if (err) {
+                    // Return Error 400 if can't get availability, shouldn't happen
+                    res.status(400).send(err.stack);
+
+                } else {
+                    console.log(result.rows);
+                    res.send(result.rows);
+                }
+            });
+            break;
         case "getAllCompletedServices":
             pool.query(queries.query.get_all_completed_services, [data.petownerEmail], (err, result) => {
 
