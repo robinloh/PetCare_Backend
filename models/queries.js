@@ -20,7 +20,7 @@ queries.query = {
     add_pet: 'INSERT INTO Pets VALUES($1) RETURNING pid', //[name] pid to be generated
     delete_pet: 'DELETE FROM Pets WHERE pid = $1 RETURNING pid',
     add_pets_owner: 'INSERT INTO OwnsPet VALUES($1, $2)', //[email, pid]
-    get_all_pets_from_petowner: 'SELECT name, breedname, speciesname, diet, specialnote FROM getPetsInfo WHERE email = $1', // [name, breedName, speciesName, diet, specialNote]
+    get_all_pets_from_petowner: 'SELECT pid, name, breedname, speciesname, diet, specialnote FROM getPetsInfo WHERE email = $1', // [name, breedName, speciesName, diet, specialNote]
 
     // Availability and bids related
     add_availability: 'INSERT INTO Availabilities VALUES($1, $2, $3, $4) RETURNING startDate, endDate', //[email, startDate, endDate, autoAcceptedPrice]
