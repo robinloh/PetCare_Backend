@@ -28,8 +28,8 @@ router.post('/', function (req, res, next) {
 
     switch (data.reqType) {
 
-        case "findCaretakerService":
-            pool.query(queries.query.find_services, [data.rating, data.bidamount, data.dateofservice, data.serviceid], (err, result) => {
+        case "searchCaretakers":
+            pool.query(queries.query.find_services, [data.dateofservice, data.serviceid, data.bidamount, data.rating], (err, result) => {
                 if (err) {
                     // Return Error 400 if can't get availability, shouldn't happen
                     res.status(400).send(err.stack);
