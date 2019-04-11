@@ -38,7 +38,7 @@ queries.query = {
     // Services related
     get_all_services: 'SELECT * FROM Services',
     get_future_services_dates: 'select bid, TO_CHAR(dateofservice, \'YYYY-MM-DD\') as dateofservice, bidamount, users.name as caretakername, users.email as caretakeremail from bids inner join users on bids.caretakeremail = users.email where status = \'Won\' and bids.bidderemail = $1 and dateofservice >= now();', //[bidderEmail]
-    get_all_completed_services: 'select bid, TO_CHAR(dateofservice, \'YYYY-MM-DD\') as dateofservice, bidamount, users.name as caretakername, users.email as caretakeremail from bids inner join users on bids.caretakeremail = users.email where status = \'Won\' and bids.bidderemail = $1 and dateofservice < now();', // [bidderemail]
+    get_all_completed_services: 'select bid, TO_CHAR(dateofservice, \'YYYY-MM-DD\') as dateofservice, bidamount, users.name as caretakername, users.email as caretakeremail from bids inner join users on bids.caretakeremail = users.email where status = \'Won\' and bids.bidderemail = $1 and dateofservice < now() ORDER BY dateofservice DESC;', // [bidderemail]
     get_provided_services: 'SELECT serviceid FROM provideService WHERE email = $1', //[caretakerEmail]
     add_service: 'INSERT INTO provideService VALUES ($2, $1)', //[caretakerEmail, serviceid]
     remove_service: 'DELETE FROM provideService WHERE email = $1 and serviceid = $2', //[caretakerEmail, serviceid]
@@ -76,7 +76,8 @@ queries.query = {
 
     // Reviews
     // Reviews table: (rid, review, email, rating, byuser)
-    create_review: 'INSERT INTO reviews(rid, review, email, rating, byuser) VALUES($1, $2, $3, $4, $5)', // [bidId, review, caretakerEmail, rating, petownerEmail]
+    create_review: 'INSERT INTO reviews(rid, review, email, rating, byuser) VALUES($1, $2, $3, $4, $5)', // [bid, review, caretakerEmail, rating, petownerEmail]
+    update_review: 'UPDATE reviews SET rid = $1, review = $2, email = $3, rating = $4, byuser = $5;', // [bid, review, caretakerEmail, rating, petownerEmail]
     get_review: 'SELECT * FROM reviews where email = $1', // [caretakerEmail]
 }
 
