@@ -103,7 +103,7 @@ router.post('/', function (req, res, next) {
 
                 } else {
                     console.log(result);
-                    res.send(result);
+                    res.send(result.rows);
                 }
             });
             break;
@@ -113,8 +113,8 @@ router.post('/', function (req, res, next) {
                     res.status(400).send(err.message);
 
                 } else {
-                    console.log(result);
-                    res.send(result);
+                    console.log(result.rows);
+                    res.send(result.rows);
                 }
             });
             break;
@@ -128,10 +128,10 @@ router.post('/', function (req, res, next) {
                         await client.query(queries.query.add_service, [data.email, service])
                     }
                     await client.query('COMMIT')
-                    const { result } = await client.query(queries.query.get_provided_services, [data.email])
-                    console.log(result);
+                    const result = await client.query(queries.query.get_provided_services, [data.email])
+                    console.log(result.rows);
 
-                    res.send(result);
+                    res.send(result.rows);
                 } catch (e) {
                     await client.query('ROLLBACK')
                     throw e
@@ -151,10 +151,10 @@ router.post('/', function (req, res, next) {
                         await client.query(queries.query.remove_service, [data.email, service])
                     }
                     await client.query('COMMIT')
-                    const { result } = await client.query(queries.query.get_provided_services, [data.email])
-                    console.log(result);
+                    const result = await client.query(queries.query.get_provided_services, [data.email])
+                    console.log(result.rows);
 
-                    res.send(result);
+                    res.send(result.rows);
                 } catch (e) {
                     await client.query('ROLLBACK')
                     throw e
