@@ -28,7 +28,8 @@ queries.query = {
     get_availability: 'SELECT TO_CHAR(startDate, \'YYYY-MM-DD\') AS startDate, TO_CHAR(endDate, \'YYYY-MM-DD\') As endDate, autoAcceptedPrice FROM Availabilities WHERE email = $1', //[email]
 
     find_services: 'with avgratings as (SELECT R.email, AVG(rating) AS avgrating from reviews R GROUP BY R.email) SELECT email FROM Availabilities A INNER JOIN provideService S LEFT JOIN avgRatings on R.email = A.email WHERE $1 > startDate AND $1 < endDate AND serviceid = $2 AND avgrating >= $4 AND NOT EXISTS (SELECT 1 FROM Bids B WHERE A.email = BcaretakerEmail AND dateOfService = $1 AND status = "Won" AND B.bidamount >= $3)', // [dateOfService, typeOfService]
-    get_work_schedule: 'SELECT TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = \'Won\'', //[caretakerEmail]
+    get_completed_work: 'SELECT bid, TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, users.name as petownerName, bidderEmail, bidAmount FROM Bids INNER JOIN Users on bids.bidderemail = users.email WHERE caretakerEmail = $1 and status = \'Won\' and dateofservice < now()', //[caretakerEmail]
+    get_work_schedule: 'SELECT bid, TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, users.name as petownerName, bidderEmail, bidAmount FROM Bids INNER JOIN Users on bids.bidderemail = users.email WHERE caretakerEmail = $1 and status = \'Won\' and dateofservice >= now()', //[caretakerEmail]
     get_my_bids: 'SELECT bid, TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = \'current highest\'', //[caretakerEmail]
     accept_bid: 'UPDATE Bids SET status = \'Won\' WHERE bid = $1 returning caretakerEmail, DateOfService', //[bid] 
     make_bid: 'INSERT INTO bids values (default, $1, $2, now(), $3, $4, null) returning bidtimestamp', //[bidderEmail, caretakerEmail, bidAmt, dateOfService]
@@ -36,6 +37,7 @@ queries.query = {
     
     // Services related
     get_all_services: 'SELECT * FROM Services',
+    get_future_services_dates: 'select bid, TO_CHAR(dateofservice, \'YYYY-MM-DD\') as dateofservice, bidamount, users.name as caretakername, users.email as caretakeremail from bids inner join users on bids.caretakeremail = users.email where status = \'Won\' and bids.bidderemail = $1 and dateofservice >= now();', //[bidderEmail]
     get_all_completed_services: 'select bid, TO_CHAR(dateofservice, \'YYYY-MM-DD\') as dateofservice, bidamount, users.name as caretakername, users.email as caretakeremail from bids inner join users on bids.caretakeremail = users.email where status = \'Won\' and bids.bidderemail = $1 and dateofservice < now();', // [bidderemail]
     get_provided_services: 'SELECT serviceid FROM provideService WHERE email = $1', //[caretakerEmail]
     add_service: 'INSERT INTO provideService VALUES ($2, $1)', //[caretakerEmail, serviceid]
