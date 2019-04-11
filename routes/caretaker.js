@@ -18,7 +18,7 @@ router.post('/', function (req, res, next) {
         dateToRemove: req.body.dateToRemove,
         email: req.body.email,
         autoAcceptedPrice: req.body.autoAcceptedPrice,
-        services: req.body.service
+        services: req.body.services
     };
     console.log(data);
 
