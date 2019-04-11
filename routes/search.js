@@ -12,12 +12,13 @@ const pool = new Pool({
 router.post('/', function (req, res, next) {
 
     const data = {
-        reqType:         req.body.post,
-        email:           req.body.email,
-        rating:          req.body.rating,
-        bidamount:       req.body.bidamount,
-        startdate:       req.body.startdate,
-        serviceid:       req.body.serviceid,
+        reqType: req.body.post,
+        petownerEmail: req.body.petownerEmail,
+        caretakerEmail: req.body.caretakerEmail,
+        rating: req.body.rating,
+        bidamount: req.body.bidamount,
+        startdate: req.body.startdate,
+        serviceid: req.body.serviceid,
     };
 
     console.log(data);
@@ -41,14 +42,23 @@ router.post('/', function (req, res, next) {
             });
             break;
 
-        case "getAllServices":
-            pool.query(queries.query.get_all_services, (err, result) => {
+        case "addBid":
+            pool.query(queries.query.make_bid, [data.petownerEmail, data.caretakerEmail, data.bidamount, data.startdate], (err, result) => {
                 if (err) {
                     res.status(400).send(err.message);
 
                 } else {
                     console.log(result);
-                    res.send(result.rows);
+                    pool.query(queries.query.get_wallet_amt, [data.petownerEmail], (err, result2) => {
+                        if (err) {
+                            res.status(400).send(err.message);
+
+                        } else {
+                            console.log(result);
+
+                            res.send(result.rows + result2.rows);
+                        }
+                    });
                 }
             });
             break;
