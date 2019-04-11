@@ -53,7 +53,7 @@ router.post('/', function (req, res, next) {
         }
     })().catch(e => {
         console.error(e.message)
-        res.status(400).send("e.message")
+        res.status(400).send(e.message)
     })
 });
 
