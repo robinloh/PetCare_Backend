@@ -11,15 +11,15 @@ const cors = require('cors');
 require('dotenv').config();
 
 // For routing
-var indexRouter      = require('./routes/index');
-var loginRouter      = require('./routes/login');
-var registerRouter   = require('./routes/register');
-var caretakerRouter  = require('./routes/caretaker');
-var petsRouter       = require('./routes/petsection');
-var searchRouter     = require('./routes/search');
-var userRouter       = require('./routes/user');
-var walletRouter     = require('./routes/wallet');
-var reviewRouter     = require('./routes/review');
+var indexRouter           = require('./routes/index');
+var loginRouter           = require('./routes/login');
+var registerRouter        = require('./routes/register');
+var caretakerRouter       = require('./routes/caretaker');
+var petsRouter            = require('./routes/petsection');
+var searchRouter          = require('./routes/search');
+var userRouter            = require('./routes/user');
+var walletRouter          = require('./routes/wallet');
+var reviewRouter          = require('./routes/review');
 
 // For Local dev. CORS policy.
 app.use(cors());

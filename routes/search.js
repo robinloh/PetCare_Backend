@@ -34,7 +34,9 @@ router.post('/', function (req, res, next) {
                 }
             });
             break;
-
+        case "getAllCareTakers":
+            // TODO: To implement from SearchCareTakerSection from FE
+            break;
     }
 });
 
