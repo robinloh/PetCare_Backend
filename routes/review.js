@@ -26,7 +26,14 @@ router.post('/', function (req, res, next) {
     case "createReview":
       pool.query(queries.query.create_review, [data.bid, data.review, data.email, data.rating, data.byUser], (err, result) => {
         if (err) {
-          res.status(400).send(err.stack);
+          pool.query(queries.query.update_review, [data.bid, data.review, data.email, data.rating, data.byUser], (err, result) => {
+            if (err) {
+              res.status(400).send(err.stack);
+            } else {
+              console.log(result);
+              res.send(result);
+            }
+          });
         } else {
           console.log(result);
           res.send(result);
