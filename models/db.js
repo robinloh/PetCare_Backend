@@ -83,6 +83,7 @@ let dropTriggers =
 let dropTables = 
     'drop view if exists getUsersInfo;' +
     'drop view if exists getPetsInfo;' +
+    'drop view if exists getPastWork;' +
     'drop table if exists Admins;' +
     'drop table if exists Badges, hasBadge;' +
     'drop table if exists Reviews, Transactions;' +
@@ -239,6 +240,8 @@ let createTables =
     'CREATE VIEW getUsersInfo as SELECT u.email AS email, CASE WHEN po.email IS NULL THEN false ELSE true END AS PetOwner, CASE WHEN ct.email IS NULL THEN false ELSE true END AS CareTaker FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email);' +
     
     'create view getPetsInfo as SELECT ownspet.email, ownspet.pid, pets.name, petBreed.breedName, isofspecies.speciesname, hasdietrestrictions.diet, specialnotes.specialnote FROM ownspet LEFT JOIN pets on ownspet.pid = pets.pid LEFT JOIN petBreed ON ownspet.pid = petBreed.pid LEFT JOIN isofspecies on ownspet.pid = isofspecies.pid LEFT join hasdietrestrictions on ownspet.PID = hasdietrestrictions.pid left join specialnotes on ownspet.pid = specialnotes.pid;' +
+
+    'create view getPastWork as select users.name, reviews.byuser as email, bids.bidamount, bids.dateofservice, bids.bid, reviews.rating, reviews.review, bids.bidtimestamp from users left join bids on bids.caretakeremail = users.email left join reviews on bids.bid = reviews.rid where status = \'won\';' +
     
     'create or replace procedure removeAvailability(ctEmail varchar(255), dateToRemove DATE) language plpgsql as $$ declare procStartDate DATE; procEndDate DATE; price numeric(12,2); begin select startdate, enddate, autoAcceptedPrice into procStartDate, procEndDate, price from availabilities where ctEmail = email and dateToRemove between startdate and ENDDATE; if procStartDate = procEndDate then delete from availabilities where ctEmail = email and startdate = dateToRemove; elseif procStartDate = dateToRemove then update availabilities set startdate = dateToRemove + 1 where ctEmail = email and startdate = dateToRemove; elseif procEndDate = dateToRemove then update availabilities set enddate = dateToRemove - 1 where ctEmail = email and enddate = dateToRemove; elseif procStartDate <> procEndDate then delete from availabilities where ctEmail = email and startdate = procStartDate; insert into availabilities values (ctEmail, procStartDate, dateToRemove - 1, price); insert into availabilities values (ctEmail, dateToRemove + 1, procEndDate, price); end if; end $$;' +
     
