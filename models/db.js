@@ -25,6 +25,8 @@ const createDb = () => {
 
 let bidsStub =
     'insert into availabilities values(\'ct@hotmail.com\', \'2019-05-01\', \'2019-05-01\', 100.2) returning startdate, enddate;' +
+    'insert into availabilities values(\'ct@hotmail.com\', \'2019-01-23\', \'2019-01-23\', 543.2) returning startdate, enddate;' +
+    'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 900, \'2019-01-23\', \'Won\');' +
     'insert into bids values(default, \'admin@gmail.com\', \'ct@hotmail.com\', now(), 90, \'2019-05-01\', \'current highest\');' +
     'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 70, \'2019-05-01\', \'outbidded\');';
 
