@@ -20,7 +20,6 @@ var searchRouter          = require('./routes/search');
 var userRouter            = require('./routes/user');
 var walletRouter          = require('./routes/wallet');
 var reviewRouter          = require('./routes/review');
-var petOwnerSearchRouter  = require('./routes/petownersearch');
 
 // For Local dev. CORS policy.
 app.use(cors());
@@ -50,7 +49,6 @@ app.use('/search', searchRouter);
 app.use('/user', userRouter);
 app.use('/wallet', walletRouter);
 app.use('/review', reviewRouter);
-app.use('/petownersearch', petOwnerSearchRouter);
 
 
 // catch 404 and forward to error handler
