@@ -18,7 +18,8 @@ router.post('/', function (req, res, next) {
         dateToRemove: req.body.dateToRemove,
         email: req.body.email,
         autoAcceptedPrice: req.body.autoAcceptedPrice,
-        services: req.body.service
+        services: req.body.services,
+        bid: req.body.bid
     };
     console.log(data);
 
@@ -31,7 +32,7 @@ router.post('/', function (req, res, next) {
     //addService: add service(input: array of services(?) output: all provided service(?)
     //removeService: remove service (input: array of services(?) output: all provided service(?))
     //getAvgRating: get avg rating for caretaker (input: caretakerEmail output: avg rating)
-    //getBids: get all available bid dates and current highest bid(input: email output: dates, current highest bid)
+    //getBids: get all available bid dates and current highest bid(input: email output: dates, petownerEmail, current highest bid)
     //acceptBid: accept current highest bid of a specific day(input: caretakerEmail, dateOfService output: petownerEmail, dateOfService, Price?)
 
     switch (data.reqType) {
@@ -66,7 +67,7 @@ router.post('/', function (req, res, next) {
                     await client.query(queries.query.add_availability, [data.email, data.startDate, data.endDate, data.autoAcceptedPrice])
                     await client.query('COMMIT')
                     const results = await client.query(queries.query.get_availability, [data.email])
-                    console.log(results.rows);
+                    console.log(results);
                     res.send(results.rows);
                 } catch (e) {
                     await client.query('ROLLBACK')
@@ -103,7 +104,7 @@ router.post('/', function (req, res, next) {
 
                 } else {
                     console.log(result);
-                    res.send(result);
+                    res.send(result.rows);
                 }
             });
             break;
@@ -113,8 +114,8 @@ router.post('/', function (req, res, next) {
                     res.status(400).send(err.message);
 
                 } else {
-                    console.log(result);
-                    res.send(result);
+                    console.log(result.rows);
+                    res.send(result.rows);
                 }
             });
             break;
@@ -128,10 +129,10 @@ router.post('/', function (req, res, next) {
                         await client.query(queries.query.add_service, [data.email, service])
                     }
                     await client.query('COMMIT')
-                    const { result } = await client.query(queries.query.get_provided_services, [data.email])
-                    console.log(result);
+                    const result = await client.query(queries.query.get_provided_services, [data.email])
+                    console.log(result.rows);
 
-                    res.send(result);
+                    res.send(result.rows);
                 } catch (e) {
                     await client.query('ROLLBACK')
                     throw e
@@ -151,10 +152,10 @@ router.post('/', function (req, res, next) {
                         await client.query(queries.query.remove_service, [data.email, service])
                     }
                     await client.query('COMMIT')
-                    const { result } = await client.query(queries.query.get_provided_services, [data.email])
-                    console.log(result);
+                    const result = await client.query(queries.query.get_provided_services, [data.email])
+                    console.log(result.rows);
 
-                    res.send(result);
+                    res.send(result.rows);
                 } catch (e) {
                     await client.query('ROLLBACK')
                     throw e
@@ -174,6 +175,40 @@ router.post('/', function (req, res, next) {
                     res.send(result.rows);
                 }
             });
+            break;
+        case "getBids":
+            pool.query(queries.query.get_my_bids, [data.email], (err, result) => {
+                if (err) {
+                    res.status(400).send(err.message);
+
+                } else {
+                    console.log(result);
+                    res.send(result.rows);
+                }
+            });
+            break;
+        case "acceptBid":
+            (async () => {
+                const client = await pool.connect()
+                try {
+                    await client.query('BEGIN')
+                    const tempResult = await client.query(queries.query.accept_bid, [data.bid])
+                    const dateOfService = tempResult.rows[0].dateOfService
+                    const caretakerEmail = tempResults.rows[0].caretakerEmail
+                    await client.query(queries.query.delete_availability, [dateOfService])
+                    await client.query('COMMIT')
+                    const availResult = await client.query(queries.query.get_availability, [caretakerEmail])
+                    const workDateResult = await client.query(queries.query.get_work_schedule, [caretakerEmail])
+                    console.log("availabilities: \n" + availResult.rows + "\n work dates: \n" + workDateResult.rows);
+                    res.send("availabilities: \n" + availResult.rows + "\n work dates: \n" + workDateResult.rows);
+                } catch (e) {
+                    await client.query('ROLLBACK')
+                    throw e
+                } finally {
+                    client.release()
+                }
+            })().catch(e => {console.error(e.message)
+                res.status(400).send(e.message)})
             break;
     }
 

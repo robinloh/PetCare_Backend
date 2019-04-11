@@ -12,7 +12,7 @@ pool.on('connect', () => {
 });
 
 const createDb = () => {
-    pool.query(dropTables + createTables + insertSpecies + insertBreeds + insertDiets + insertTestUsers + insertStatusTypes + insertServicesTypes + insertBadgesTypes)
+    pool.query(dropTables + createTables + insertSpecies + insertBreeds + insertDiets + insertTestUsers + insertStatusTypes + insertServicesTypes + insertBadgesTypes +bidsStub)
         .then((res) => {
             console.log(res);
             pool.end();
@@ -22,6 +22,9 @@ const createDb = () => {
             pool.end();
         });
 }
+
+let bidsStub = 
+    'insert into availabilities values(\'ct@hotmail.com\', \'2019-01-01\', \'2019-01-01\', 100.2) returning startdate, enddate;insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 100, \'2019-01-01\', \'current highest\');';
 
 let insertTestUsers =
     'insert into users values(\'po@hotmail.com\', \'PetOwner1\', 99999999, \'12345678\');' +

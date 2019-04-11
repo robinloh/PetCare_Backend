@@ -29,8 +29,8 @@ queries.query = {
 
     find_services: 'SELECT email FROM Availabilities A INNER JOIN provideService S WHERE $1 > startDate AND $1 < endDate AND serviceid = $2 AND NOT EXISTS (SELECT 1 FROM Bids B WHERE A.email = B.caretakerEmail AND dateOfService = $1 AND status = "Won")', // [dateOfService, typeOfService]
     get_work_schedule: 'SELECT DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = "Won"', //[caretakerEmail]
-    get_my_bids: 'SELECT DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = "current highest"', //[caretakerEmail]
-    accept_bid: 'UPDATE Bids SET status = "Won" WHERE caretakerEmail = $1 and DateOfService = $2 and status = "current highest"', //[caretakerEmail, dateOfService] 
+    get_my_bids: 'SELECT bid, DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = "current highest"', //[caretakerEmail]
+    accept_bid: 'UPDATE Bids SET status = "Won" WHERE bid = $1 returning caretakerEmail, DateOfService', //[bid] 
 
     // Services related
     get_all_services: 'SELECT * FROM Services',
