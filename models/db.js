@@ -59,14 +59,19 @@ let insertStatusTypes =
 
 let insertServicesTypes = 
     'insert into Services values (\'Pet Walking\');' +
-    'insert into StatusTypes values (\'Pet Grooming\');' +
-    'insert into StatusTypes values (\'Pet Boarding\');';
+    'insert into Services values (\'Pet Grooming\');' +
+    'insert into Services values (\'Pet Boarding\');' +
+    'insert into services values (\'Nail Care\');' +
+    'insert into services values (\'Pet Exercise\');' +
+    'insert into services values (\'Pet Training\');' +
+    'insert into services values (\'Hair Dressing\');';
 
 let insertBadgesTypes =
     'insert into Badges values (\'Gold\', \'Gold Badge - Congratulations! You have attained the highest badge\');' +
     'insert into Badges values (\'Silver\', \'Silver Badge - Aim for the gold badge!\');' +
     'insert into Badges values (\'Bronze\', \'Bronze Badge - Aim for the silver badge!\');' +
     'insert into Badges values (\'None\', \'None - Earn a badge by helping more pets!\');';
+
 
 let dropTables = 
     'drop view if exists getUsersInfo;' +
