@@ -180,7 +180,7 @@ let createTables =
     'bidderEmail varchar(255) references PetOwners not null,' +
     'caretakerEmail varchar(255) references Caretakers not null,' +
     '  bidTimeStamp timestamp not null,' +
-    '  bidAmount int not null,' +
+    '  bidAmount numeric(12,2) not null,' +
     '  dateOfService date not null,' +
     '  status varchar(255) references StatusTypes not null' +
     ');' +
@@ -197,7 +197,7 @@ let createTables =
 
     'create table Wallets (' +
     'email varchar(255) references Users primary key,' +
-    'walletAmt float8 not null ' +
+    'walletAmt numeric(12,2) not null ' +
     ');' +
 
     'create table Transactions (' +
@@ -205,7 +205,7 @@ let createTables =
     'transactFrom varchar(255) references Users not null,' +
     'transactTo varchar(255) references Users not null,' +
     'transTimeStamp timestamp not null,' +
-    'transAmt float8 not null' +
+    'transAmt numeric(12,2) not null' +
     ');' +
 
     'create table Reviews (' +

@@ -195,7 +195,7 @@ router.post('/', function (req, res, next) {
                     await client.query('BEGIN')
                     const tempResult = await client.query(queries.query.accept_bid, [data.bid])
                     const dateOfService = tempResult.rows[0].dateOfService
-                    const caretakerEmail = tempResults.rows[0].caretakerEmail
+                    const caretakerEmail = tempResult.rows[0].caretakerEmail
                     await client.query(queries.query.delete_availability, [dateOfService])
                     await client.query('COMMIT')
                     const availResult = await client.query(queries.query.get_availability, [caretakerEmail])
