@@ -35,8 +35,8 @@ router.post('/', function (req, res, next) {
                     res.status(400).send(err.stack);
 
                 } else {
-                    console.log(result);
-                    res.send(result);
+                    console.log(result.rows);
+                    res.send(result.rows);
                 }
             });
             break;
