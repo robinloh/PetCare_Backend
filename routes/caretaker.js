@@ -194,13 +194,13 @@ router.post('/', function (req, res, next) {
                 try {
                     await client.query('BEGIN')
                     const tempResult = await client.query(queries.query.accept_bid, [data.bid])
-                    const dateOfService = tempResult.rows[0].dateOfService
-                    const caretakerEmail = tempResult.rows[0].caretakerEmail
+                    const dateOfService = tempResult.rows[0].dateofservice
+                    const caretakerEmail = tempResult.rows[0].caretakeremail
                     await client.query(queries.query.delete_availability, [caretakerEmail, dateOfService])
                     await client.query('COMMIT')
                     const availResult = await client.query(queries.query.get_availability, [caretakerEmail])
                     const workDateResult = await client.query(queries.query.get_work_schedule, [caretakerEmail])
-                    console.log("availabilities: \n" + availResult.rows + "\n work dates: \n" + workDateResult.rows);
+                    console.log("availabilities: \n" + availResult.rows + "\n work dates: \n" + JSON.stringify(workDateResult.rows));
                     res.send({availabilities: availResult.rows, workdates: workDateResult.rows});
                 } catch (e) {
                     await client.query('ROLLBACK')
