@@ -31,7 +31,9 @@ queries.query = {
     get_work_schedule: 'SELECT TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = \'Won\'', //[caretakerEmail]
     get_my_bids: 'SELECT bid, TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = \'current highest\'', //[caretakerEmail]
     accept_bid: 'UPDATE Bids SET status = \'Won\' WHERE bid = $1 returning caretakerEmail, DateOfService', //[bid] 
-            
+    make_bid: 'INSERT INTO bids values (default, $1, $2, now(), $3, $4, null) returning bidtimestamp', //[bidderEmail, caretakerEmail, bidAmt, dateOfService]
+    
+    
     // Services related
     get_all_services: 'SELECT * FROM Services',
     get_all_completed_services: 'select bid, TO_CHAR(dateofservice, \'YYYY-MM-DD\') as dateofservice, bidamount, users.name as caretakername, users.email as caretakeremail from bids inner join users on bids.caretakeremail = users.email where status = \'Won\' and bids.bidderemail = $1 and dateofservice < now();', // [bidderemail]
@@ -67,7 +69,8 @@ queries.query = {
     // Wallet
     create_wallet: 'INSERT INTO wallets VALUES($1, $2)', //[userEmail, walletamt]
     get_wallet: 'SELECT * FROM wallets where email = $1', // [userEmail]
-    update_wallet_amt: 'UPDATE wallets SET walletamt = $1 WHERE email = $2', // [walletamt, userEmail
+    update_wallet_amt: 'UPDATE wallets SET walletamt = $1 WHERE email = $2', // [walletamt, userEmail]
+    get_wallet_amt: 'SELECT walletamt FROM wallets where email = $1', //[petownerEmail]
 
     // Reviews
     // Reviews table: (rid, review, email, rating, byuser)

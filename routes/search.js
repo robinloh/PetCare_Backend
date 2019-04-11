@@ -12,15 +12,13 @@ const pool = new Pool({
 router.post('/', function (req, res, next) {
 
     const data = {
+
         reqType:         req.body.post,
-        caretakername:   req.body.caretakername,   // for get completed bids
-        caretakeremail:  req.body.caretakeremail,  // for get completed bids
-        bidderemail:     req.body.bidderemail,     // for get completed bids
-        email:           req.body.email,
+        petownerEmail: req.body.petownerEmail,
+        caretakeremail:  req.body.caretakeremail, 
         rating:          req.body.rating,
         bidamount:       req.body.bidamount,
-        startdate:       req.body.startdate,
-        dateofservice:   req.body.dateofservice,  // for get all completed bids
+        dateofservice:   req.body.dateofservice, 
         serviceid:       req.body.serviceid,
     };
 
@@ -31,7 +29,7 @@ router.post('/', function (req, res, next) {
     switch (data.reqType) {
 
         case "findCaretakerService":
-            pool.query(queries.query.find_services, [data.rating, data.bidamount, data.startdate, data.serviceid], (err, result) => {
+            pool.query(queries.query.find_services, [data.rating, data.bidamount, data.dateofservice, data.serviceid], (err, result) => {
                 if (err) {
                     // Return Error 400 if can't get availability, shouldn't happen
                     res.status(400).send(err.stack);
@@ -43,21 +41,29 @@ router.post('/', function (req, res, next) {
             });
             break;
 
-        case "getAllServices":
-            console.log(data.email);
-            pool.query(queries.query.get_all_services, (err, result) => {
+        case "addBid":
+            pool.query(queries.query.make_bid, [data.petownerEmail, data.caretakerEmail, data.bidamount, data.dateofservice], (err, result) => {
                 if (err) {
                     res.status(400).send(err.message);
 
                 } else {
                     console.log(result);
-                    res.send(result.rows);
+                    pool.query(queries.query.get_wallet_amt, [data.petownerEmail], (err, result2) => {
+                        if (err) {
+                            res.status(400).send(err.message);
+
+                        } else {
+                            console.log(result);
+
+                            res.send(result.rows + result2.rows);
+                        }
+                    });
                 }
             });
             break;
 
         case "getAllCompletedServices":
-            pool.query(queries.query.get_all_completed_services, [data.email], (err, result) => {
+            pool.query(queries.query.get_all_completed_services, [data.petownerEmail], (err, result) => {
 
                 console.log(result.rows);
 
