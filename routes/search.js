@@ -14,7 +14,7 @@ router.post('/', function (req, res, next) {
     const data = {
 
         reqType:         req.body.post,
-        petownerEmail: req.body.petownerEmail,
+        petownerEmail:   req.body.petownerEmail,
         caretakeremail:  req.body.caretakeremail, 
         rating:          req.body.rating,
         bidamount:       req.body.bidamount,

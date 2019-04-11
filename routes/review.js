@@ -13,7 +13,7 @@ const pool = new Pool({
 router.post('/', function (req, res, next) {
   const data = {
     reqType: req.body.post,
-    bidId: req.body.bidId,
+    bid: req.body.bid,
     review: req.body.review,
     email: req.body.email, // Email of care Taker
     rating: req.body.rating, // [0, 5] inclusive
@@ -22,9 +22,9 @@ router.post('/', function (req, res, next) {
 
   // Review table: (rid, review, email, rating, byuser)
   switch (data.reqType) {
-    // Only Pet owners can write reviews
+    // Only Pet owners can write reviewsreview
     case "createReview":
-      pool.query(queries.query.create_review, [data.bidId, data.review, data.email, data.rating, data.byUser], (err, result) => {
+      pool.query(queries.query.create_review, [data.bid, data.review, data.email, data.rating, data.byUser], (err, result) => {
         if (err) {
           res.status(400).send(err.stack);
         } else {

@@ -36,9 +36,10 @@ let insertTestUsers =
     'insert into wallets values(\'po@hotmail.com\', 0);' +
     'insert into wallets values(\'ct@hotmail.com\', 0);' +
     'insert into hasBadge values(\'Gold\', \'po@hotmail.com\');' +
-    'insert into hasBadge values(\'Silver\', \'ct@hotmail.com\');' +
-    'insert into reviews(review, email, rating, byuser) values(\'Review A\', \'ct@hotmail.com\', 4, \'po@hotmail.com\');' +
-    'insert into reviews(review, email, rating, byuser) values(\'Review 2\', \'ct@hotmail.com\', 3, \'po@hotmail.com\');';
+    'insert into hasBadge values(\'Silver\', \'ct@hotmail.com\');'
+    // +
+    // 'insert into reviews(review, email, rating, byuser) values(\'Review 2\', \'ct@hotmail.com\', 3, \'po@hotmail.com\');'
+    ;
 
 let insertSpecies = 
     'insert into species values (\'Dog\');' +
