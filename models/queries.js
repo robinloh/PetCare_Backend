@@ -31,7 +31,7 @@ queries.query = {
     get_work_schedule: 'SELECT DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = "Won"', //[caretakerEmail]
     get_my_bids: 'SELECT bid, DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = "current highest"', //[caretakerEmail]
     accept_bid: 'UPDATE Bids SET status = "Won" WHERE bid = $1 returning caretakerEmail, DateOfService', //[bid] 
-
+            
     // Services related
     get_all_services: 'SELECT * FROM Services',
     get_provided_services: 'SELECT serviceid FROM provideService WHERE email = $1', //[caretakerEmail]

@@ -21,7 +21,8 @@ router.post('/', function (req, res, next) {
         breedName:   req.body.breedName,
         specialNote: req.body.specialNote
     };
-
+    //getServiceDates: get all confirmed bids according to petownerEmail (input: petownerEmail output:bid, dateOfService, caretakerEmail, price)
+    //getCompletedServices: gets all won bid before current time(input: petownerEmail output: bid, DateOfService, caretakerEmail, price)
     switch (data.reqType) {
         
         case 'addPets':

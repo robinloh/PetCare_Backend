@@ -34,6 +34,7 @@ router.post('/', function (req, res, next) {
     //getAvgRating: get avg rating for caretaker (input: caretakerEmail output: avg rating)
     //getBids: get all available bid dates and current highest bid(input: email output: dates, petownerEmail, current highest bid)
     //acceptBid: accept current highest bid of a specific day(input: caretakerEmail, dateOfService output: petownerEmail, dateOfService, Price?)
+    //getCompletedWork: gets all won bid before current time(input: caretakerEmail output: bid, DateOfService, petownerEmail, price)
 
     switch (data.reqType) {
         case "getAvailability":
