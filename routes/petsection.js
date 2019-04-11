@@ -55,7 +55,14 @@ router.post('/', function (req, res, next) {
                     console.log("\nADD PET SUCCESSFUL\n");
                     console.log(data);
 
-                    res.send(data);
+                    // Get All Pets
+                    const result = await client.query(queries.query.get_all_pets_from_petowner, [data.email])
+
+                    await client.query('COMMIT')
+
+                    console.log("\nGET PET SUCCESSFUL\n");
+                    console.log(result.rows);
+                    res.send(result.rows);
 
                 } catch (e) {
                     await client.query('ROLLBACK')
@@ -67,7 +74,7 @@ router.post('/', function (req, res, next) {
                 res.status(400).send("e.message")})
             break;
 
-        case "deletePets":
+        case "deletePet":
 
             (async () => {
                 const client = await pool.connect()
