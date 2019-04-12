@@ -7,8 +7,8 @@ CS2102 - Database Systems
 * Open SQL Shell (psql). Fill in the necessary details, or simply press Enter for all ﬁelds except password if using default setting.
 * Type `CREATE DATABASE petcare;` to create a new database called "petcare". 
 * Create a new `.env` file and add this line in the file, replacing `username` and `password` fields where appropriate. ```DATABASE_URL=postgres://username:password@localhost:5432/petcare```.
-* Initialise the database by running `npm run create`.
 * Install npm packages using `npm install`.
+* Initialise the database by running `npm run create`.
 
 
 ## Available Scripts
