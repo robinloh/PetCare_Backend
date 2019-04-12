@@ -81,7 +81,7 @@ queries.query = {
     // Reviews table: (rid, review, email, rating, byuser)
     create_review: 'INSERT INTO reviews(rid, review, email, rating, byuser) VALUES($1, $2, $3, $4, $5)', // [bid, review, caretakerEmail, rating, petownerEmail]
     update_review: 'UPDATE reviews SET review = $2, rating = $3 WHERE rid = $1;', // [bid, review, rating]
-    get_review: 'SELECT * FROM reviews where email = $1', // [caretakerEmail]
+    get_review: 'SELECT R.review, R.email as caretakeremail, R.rating , R.byuser as bidderemail, R.rid, B.bidamount, TO_CHAR(B.dateofservice, \'YYYY-MM-DD\') as dateofservice, U.name as biddername FROM reviews R inner join bids B on B.bid = R.rid inner join users U on R.byuser = U.email where B.status = \'Won\' and R.email = $1;', // [caretakerEmail]
 }
 
 module.exports = queries
