@@ -13,14 +13,14 @@ router.post('/', function (req, res, next) {
 
     const data = {
 
-        reqType:         req.body.post,
-        bid:             req.body.bid,
-        petownerEmail:   req.body.petownerEmail,
-        caretakeremail:  req.body.caretakeremail, 
-        rating:          req.body.rating,
-        bidamount:       req.body.bidamount,
-        dateofservice:   req.body.dateofservice, 
-        serviceid:       req.body.serviceid,
+        reqType: req.body.post,
+        bid: req.body.bid,
+        petownerEmail: req.body.petownerEmail,
+        caretakeremail: req.body.caretakeremail,
+        rating: req.body.rating,
+        bidamount: req.body.bidamount,
+        dateofservice: req.body.dateofservice,
+        serviceid: req.body.serviceid,
     };
 
     //request types: 
@@ -97,6 +97,18 @@ router.post('/', function (req, res, next) {
                 if (err) {
                     res.status(400).send(err.message);
 
+                } else {
+                    console.log(result.rows);
+                    res.send(result.rows);
+                }
+            });
+            break;
+            
+        case "getFutureCompletedServices":
+            pool.query(queries.query.get_future_services_dates, [data.petownerEmail], (err, result) => {
+                console.log(result.rows);
+                if (err) {
+                    res.status(400).send(err.message);
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);

@@ -42,7 +42,6 @@ router.post('/', function (req, res, next) {
                 if (err) {
                     // Return Error 400 if can't get availability, shouldn't happen
                     res.status(400).send(err.message);
-
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
