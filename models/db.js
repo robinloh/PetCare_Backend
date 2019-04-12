@@ -12,7 +12,7 @@ pool.on('connect', () => {
 });
 
 const createDb = () => {
-    pool.query(dropTriggers + dropTables + createTables + insertSpecies + insertBreeds + insertDiets + insertTestUsers + insertStatusTypes + insertServicesTypes + insertBadgesTypes +bidsStub + createTriggers)
+    pool.query(dropTriggers + dropTables + createTables + insertSpecies + insertBreeds + insertDiets + insertTestUsers + insertStatusTypes + insertServicesTypes + insertBadgesTypes + bidsStub + createTriggers)
         .then((res) => {
             console.log(res);
             pool.end();
@@ -29,7 +29,8 @@ let bidsStub =
     'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 900, \'2019-01-23\', \'Won\');' +
     'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 130, \'2019-02-05\', \'Won\');' +
     'insert into bids values(default, \'admin@gmail.com\', \'ct@hotmail.com\', now(), 90, \'2019-05-01\', \'current highest\');' +
-    'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 70, \'2019-05-01\', \'outbidded\');';
+    'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 70, \'2019-05-01\', \'outbidded\');' +
+    'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 70, \'2019-10-10\', \'Won\');';
 
 let insertTestUsers =
     'insert into users values(\'po@hotmail.com\', \'PetOwner1\', 99999999, \'12345678\');' +
@@ -50,29 +51,29 @@ let insertTestUsers =
     // 'insert into reviews(review, email, rating, byuser) values(\'Review 2\', \'ct@hotmail.com\', 3, \'po@hotmail.com\');'
     ;
 
-let insertSpecies = 
+let insertSpecies =
     'insert into species values (\'Dog\');' +
     'insert into species values (\'Cat\');';
 
-let insertBreeds = 
+let insertBreeds =
     'insert into breeds values (\'Golden Retriever\', \'Dog\');' +
     'insert into breeds values (\'Corgi\', \'Dog\');' +
     'insert into breeds values (\'Husky\', \'Dog\');' +
     'insert into breeds values (\'Persian\', \'Cat\');' +
     'insert into breeds values (\'Russian Blue\', \'Cat\');';
 
-let insertDiets = 
+let insertDiets =
     'insert into diets values (\'Vegetarian\');' +
     'insert into diets values (\'Carnivore\');' +
     'insert into diets values (\'Gluten-free\');' +
     'insert into diets values (\'None\');';
 
-let insertStatusTypes = 
+let insertStatusTypes =
     'insert into StatusTypes values (\'outbidded\');' +
     'insert into StatusTypes values (\'current highest\');' +
     'insert into StatusTypes values (\'Won\');';
 
-let insertServicesTypes = 
+let insertServicesTypes =
     'insert into Services values (\'Pet Walking\');' +
     'insert into Services values (\'Pet Grooming\');' +
     'insert into Services values (\'Pet Boarding\');' +
@@ -90,7 +91,7 @@ let insertBadgesTypes =
 let dropTriggers =
     'drop trigger if exists checkValidBid on bids;';
 
-let dropTables = 
+let dropTables =
     'drop view if exists getUsersInfo;' +
     'drop view if exists getPetsInfo;' +
     'drop view if exists getPastWork;' +
@@ -116,7 +117,7 @@ let dropTables =
     'drop table if exists Users cascade;' +
     'drop table if exists SpecialNotes;';
 
-let createTables = 
+let createTables =
     'CREATE table Users (' +
     'email    varchar(320) primary key,' +
     'name     varchar(255) not null,' +
@@ -189,7 +190,7 @@ let createTables =
     'create table StatusTypes (' +
     'status varchar(255) primary key' +
     ');' +
-    
+
     'create table Bids (' +
     'bid serial primary key,' +
     'bidderEmail varchar(255) references PetOwners not null,' +
@@ -241,22 +242,22 @@ let createTables =
     'email varchar(255) references Users,' +
     'primary key (badge, email)' +
     ');' +
-    
+
     'create table SpecialNotes (' +
     'pid int primary key references Pets on delete cascade,' +
     'specialNote varchar(255)' +
     ');' +
 
     'CREATE VIEW getUsersInfo as SELECT u.email AS email, CASE WHEN po.email IS NULL THEN false ELSE true END AS PetOwner, CASE WHEN ct.email IS NULL THEN false ELSE true END AS CareTaker FROM (Users u LEFT JOIN PetOwners AS po ON (u.email = po.email)) LEFT JOIN CareTakers AS ct ON (u.email = ct.email);' +
-    
+
     'create view getPetsInfo as SELECT ownspet.email, ownspet.pid, pets.name, petBreed.breedName, isofspecies.speciesname, hasdietrestrictions.diet, specialnotes.specialnote FROM ownspet LEFT JOIN pets on ownspet.pid = pets.pid LEFT JOIN petBreed ON ownspet.pid = petBreed.pid LEFT JOIN isofspecies on ownspet.pid = isofspecies.pid LEFT join hasdietrestrictions on ownspet.PID = hasdietrestrictions.pid left join specialnotes on ownspet.pid = specialnotes.pid;' +
 
     'create view getPastWork as select users.name, reviews.byuser as email, bids.bidamount, bids.dateofservice, bids.bid, reviews.rating, reviews.review, bids.bidtimestamp from users left join bids on bids.caretakeremail = users.email left join reviews on bids.bid = reviews.rid where status = \'won\';' +
-    
+
     'create or replace procedure removeAvailability(ctEmail varchar(255), dateToRemove DATE) language plpgsql as $$ declare procStartDate DATE; procEndDate DATE; price numeric(12,2); begin select startdate, enddate, autoAcceptedPrice into procStartDate, procEndDate, price from availabilities where ctEmail = email and dateToRemove between startdate and ENDDATE; if procStartDate = procEndDate then delete from availabilities where ctEmail = email and startdate = dateToRemove; elseif procStartDate = dateToRemove then update availabilities set startdate = dateToRemove + 1 where ctEmail = email and startdate = dateToRemove; elseif procEndDate = dateToRemove then update availabilities set enddate = dateToRemove - 1 where ctEmail = email and enddate = dateToRemove; elseif procStartDate <> procEndDate then delete from availabilities where ctEmail = email and startdate = procStartDate; insert into availabilities values (ctEmail, procStartDate, dateToRemove - 1, price); insert into availabilities values (ctEmail, dateToRemove + 1, procEndDate, price); end if; end $$;' +
-    
-    'create or replace function updateWinningBid() returns trigger as $$ declare previousHighestBidder varchar(255); previousHighestAmount numeric(12,2); previousHighestBid numeric(12,2); bidderBalance numeric(12,2); autoWin numeric(12,2); begin select autoacceptedprice into autowin from availabilities where email = new.caretakeremail and new.dateofservice between startdate and enddate; select walletamt into bidderBalance from wallets where email = new.bidderEmail; select bid, bidamount, bidderEmail into previousHighestBid, previousHighestAmount, previousHighestBidder from bids where caretakeremail = new.caretakeremail and dateofservice = new.dateofservice and status = \'current highest\';	if new.bidamount < previousHighestAmount then raise exception \'bidded amount lower than current highest bid\';	return null; elseif ((new.bidamount > previousHighestAmount or previousHighestAmount is null) and new.bidamount <= bidderBalance) then update bids set status = \'outbidded\' where bid = previousHighestBid; update wallets set walletamt = bidderBalance - new.bidamount where email = new.bidderEmail; update wallets set walletamt = oldBidder.walletamt + previousHighestAmount from(select walletamt from wallets where email = previousHighestBidder) as oldBidder where email = previousHighestBidder; if(new.bidamount < autowin) then new.status:= \'current highest\'; else new.status:= \'Won\'; end if; return new; else raise exception \'insufficient balance to bid\'; return null; end if; end; $$ language plpgsql;' + 
-    
+
+    'create or replace function updateWinningBid() returns trigger as $$ declare previousHighestBidder varchar(255); previousHighestAmount numeric(12,2); previousHighestBid numeric(12,2); bidderBalance numeric(12,2); autoWin numeric(12,2); begin select autoacceptedprice into autowin from availabilities where email = new.caretakeremail and new.dateofservice between startdate and enddate; select walletamt into bidderBalance from wallets where email = new.bidderEmail; select bid, bidamount, bidderEmail into previousHighestBid, previousHighestAmount, previousHighestBidder from bids where caretakeremail = new.caretakeremail and dateofservice = new.dateofservice and status = \'current highest\';	if new.bidamount < previousHighestAmount then raise exception \'bidded amount lower than current highest bid\';	return null; elseif ((new.bidamount > previousHighestAmount or previousHighestAmount is null) and new.bidamount <= bidderBalance) then update bids set status = \'outbidded\' where bid = previousHighestBid; update wallets set walletamt = bidderBalance - new.bidamount where email = new.bidderEmail; update wallets set walletamt = oldBidder.walletamt + previousHighestAmount from(select walletamt from wallets where email = previousHighestBidder) as oldBidder where email = previousHighestBidder; if(new.bidamount < autowin) then new.status:= \'current highest\'; else new.status:= \'Won\'; end if; return new; else raise exception \'insufficient balance to bid\'; return null; end if; end; $$ language plpgsql;' +
+
     'create or replace function addDefaultBids() returns trigger as $$ declare currDate date; begin currDate:= new.startDate; WHILE currDate <= new.endDate loop insert into bids values(default, \'admin@gmail.com\', new.email, now(), 0.00, currDate, \'current highest\'); currDate:= currDate + 1; end loop; return new; end; $$ language plpgsql;';
 
 let createTriggers =
