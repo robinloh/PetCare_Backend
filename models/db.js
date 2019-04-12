@@ -261,12 +261,15 @@ let createTables =
 
     'create or replace function addDefaultBids() returns trigger as $$ declare currDate date; begin currDate:= new.startDate; WHILE currDate <= new.endDate loop if not exists (select 1 from bids where caretakeremail = new.email and dateofservice = currDate and status = \'current highest\') then insert into bids values(default, \'admin@gmail.com\', new.email, now(), 0.00, currDate, \'current highest\'); end if; currDate:= currDate + 1; end loop; return new; end; $$ language plpgsql;' +
 
-    'create or replace function cancelBids() returns trigger as $$ begin update wallets set walletamt = walletamt + new.bidamount where email = new.bidderemail; update bids set status = \'bidding cancelled\' where caretakeremail = new.caretakeremail and dateofservice = new.dateofservice and status <> \'current highest\'; return new; end; $$ language plpgsql;';
+    'create or replace function cancelBids() returns trigger as $$ begin update wallets set walletamt = walletamt + new.bidamount where email = new.bidderemail; update bids set status = \'bidding cancelled\' where caretakeremail = new.caretakeremail and dateofservice = new.dateofservice and status <> \'current highest\'; return new; end; $$ language plpgsql;' +
+    
+    'create or replace function creditCaretaker() returns trigger as $$ begin update wallets set walletamt = walletamt + new.bidamount where email = new.caretakeremail; call removeavailability(new.caretakeremail, new.dateofservice); return new; end; $$ language plpgsql;';
 
 let createTriggers =
     'create trigger checkValidBid before insert on bids for each row execute procedure updateWinningBid();' +
     'create trigger addDefaultBids after insert on availabilities for each row execute procedure addDefaultBids();' +
-    'create trigger cancelBids before update on bids for each row when (old.status = \'current highest\' and new.status = \'bidding cancelled\') execute procedure cancelBids();';
+    'create trigger cancelBids before update on bids for each row when (old.status = \'current highest\' and new.status = \'bidding cancelled\') execute procedure cancelBids();' +
+    'create trigger creditCaretaker before insert or update on bids for each row when (new.status = \'Won\') execute procedure creditCaretaker();';
 
 pool.on('remove', () => {
     console.log('CLIENT REMOVED');
