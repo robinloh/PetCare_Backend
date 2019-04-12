@@ -12,7 +12,7 @@ pool.on('connect', () => {
 });
 
 const createDb = () => {
-    pool.query(dropTriggers + dropTables + createTables + insertSpecies + insertBreeds + insertDiets + insertTestUsers + insertStatusTypes + insertServicesTypes + insertBadgesTypes + bidsStub + createTriggers)
+    pool.query(dropTriggers + dropTables + createTables + insertSpecies + insertBreeds + insertDiets + insertBadgesTypes + insertTestUsers + insertStatusTypes + insertServicesTypes + bidsStub + createTriggers)
         .then((res) => {
             console.log(res);
             pool.end();
@@ -46,10 +46,8 @@ let insertTestUsers =
     'insert into wallets values(\'admin@gmail.com\', 99);' +
     'insert into hasBadge values(\'Gold\', \'po@hotmail.com\');' +
     'insert into hasBadge values(\'Silver\', \'ct@hotmail.com\');' +
-    'insert into hasBadge values(\'Bronze\', \'admin@gmail.com\');'
-    // +
-    // 'insert into reviews(review, email, rating, byuser) values(\'Review 2\', \'ct@hotmail.com\', 3, \'po@hotmail.com\');'
-    ;
+    'insert into hasBadge values(\'Bronze\', \'admin@gmail.com\');' +
+    'insert into reviews values(1, \'very good\', \'ct@hotmail.com\', 5, \'po@hotmail.com\');';
 
 let insertSpecies =
     'insert into species values (\'Dog\');' +
@@ -97,7 +95,7 @@ let dropTables =
     'drop view if exists getPetsInfo;' +
     'drop view if exists getPastWork;' +
     'drop table if exists Admins;' +
-    'drop table if exists Badges, hasBadge;' +
+    'drop table if exists hasBadge, Badges;' +
     'drop table if exists Reviews, Transactions;' +
     'drop table if exists Bids, Availabilities, StatusTypes;' +
     'drop table if exists Wallets, Services, provideService;' +
@@ -240,7 +238,7 @@ let createTables =
     ');' +
 
     'create table hasBadge (' +
-    'badge varchar(255),' +
+    'badge varchar(255) references Badges,' +
     'email varchar(255) references Users,' +
     'primary key (badge, email)' +
     ');' +
