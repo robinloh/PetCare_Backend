@@ -25,7 +25,7 @@ queries.query = {
 
     // Availability and bids related
     add_availability: 'INSERT INTO Availabilities VALUES($1, $2, $3, $4) RETURNING startDate, endDate', //[email, startDate, endDate, autoAcceptedPrice]
-    delete_availability: 'CALL removeAvailability($1, $2)', //[email, dateToRemove]
+    delete_availability: 'CALL removeAvailability($1, $2, false)', //[email, dateToRemove]
     get_availability: 'SELECT TO_CHAR(startDate, \'YYYY-MM-DD\') AS startDate, TO_CHAR(endDate, \'YYYY-MM-DD\') As endDate, autoAcceptedPrice FROM Availabilities WHERE email = $1', //[email]
 
     find_services: 'SELECT DISTINCT A.email, u.name, bidamt.bidamount, avgrating, bidamt.dateofservice AS dateofservice FROM Availabilities A NATURAL JOIN Users u LEFT JOIN provideService S on S.email = A.email LEFT JOIN (SELECT R.email, AVG(rating) AS avgrating from reviews R GROUP BY R.email) as AR on AR.email = A.email left join (select bidamount, caretakeremail, TO_CHAR(dateofservice, \'YYYY-MM-DD\') AS dateofservice from Bids b where dateofservice = $1 and status = \'current highest\') as bidamt on bidamt.caretakeremail = A.email WHERE $1 BETWEEN startDate AND endDate AND case when $2::text = \'Any\' then true else serviceid = $2 end AND avgrating >= $4 AND bidamt.bidamount < $3 AND NOT EXISTS (SELECT 1 FROM Bids B WHERE A.email = B.caretakerEmail AND dateOfService = $1 AND status = \'Won\')', // [dateOfService, typeOfService, bidamt, rating]
