@@ -1,5 +1,7 @@
 # PetCare_Backend
-CS2102 - Database Systems
+
+## ER Diagram
+![PetCare_Backend ER Diagram](https://github.com/robinloh/PetCare_Backend/blob/master/PetCare_Backend_ER_Diagram.jpg?raw=true)
 
 ## Installation for FIRST TIME
 
