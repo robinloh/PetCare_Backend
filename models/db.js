@@ -37,7 +37,6 @@ let insertTestUsers =
     'insert into users values(\'admin@gmail.com\', \'Admin\', 91234567, \'cs2102\');' +
     'insert into petowners values(\'po@hotmail.com\');' +
     'insert into petowners values(\'admin@gmail.com\');' +
-    'insert into caretakers values(\'po@hotmail.com\');' +
     'insert into caretakers values(\'ct@hotmail.com\');' +
     'insert into caretakers values(\'admin@gmail.com\');' +
     'insert into admins values(\'admin@gmail.com\');' +
