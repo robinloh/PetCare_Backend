@@ -27,6 +27,7 @@ let bidsStub =
     'insert into availabilities values(\'ct@hotmail.com\', \'2019-05-01\', \'2019-05-01\', 100.2) returning startdate, enddate;' +
     'insert into availabilities values(\'ct@hotmail.com\', \'2019-01-23\', \'2019-01-23\', 543.2) returning startdate, enddate;' +
     'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 900, \'2019-01-23\', \'Won\');' +
+    'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 130, \'2019-02-05\', \'Won\');' +
     'insert into bids values(default, \'admin@gmail.com\', \'ct@hotmail.com\', now(), 90, \'2019-05-01\', \'current highest\');' +
     'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 70, \'2019-05-01\', \'outbidded\');';
 
@@ -44,7 +45,8 @@ let insertTestUsers =
     'insert into wallets values(\'ct@hotmail.com\', 0);' +
     'insert into wallets values(\'admin@gmail.com\', 99);' +
     'insert into hasBadge values(\'Gold\', \'po@hotmail.com\');' +
-    'insert into hasBadge values(\'Silver\', \'ct@hotmail.com\');'
+    'insert into hasBadge values(\'Silver\', \'ct@hotmail.com\');' +
+    'insert into hasBadge values(\'Bronze\', \'admin@gmail.com\');'
     // +
     // 'insert into reviews(review, email, rating, byuser) values(\'Review 2\', \'ct@hotmail.com\', 3, \'po@hotmail.com\');'
     ;
@@ -260,7 +262,7 @@ let createTables =
 
 let createTriggers =
     'create trigger checkValidBid before insert on bids for each row execute procedure updateWinningBid();' +
-    'create trigger addDefaultBids after insert on availabilities for each row execute procedure addDefaultBids();'; 
+    'create trigger addDefaultBids after insert on availabilities for each row execute procedure addDefaultBids();';
 
 pool.on('remove', () => {
     console.log('CLIENT REMOVED');
