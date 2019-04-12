@@ -216,14 +216,6 @@ let createTables =
     'walletAmt numeric(12,2) not null ' +
     ');' +
 
-    'create table Transactions (' +
-    'tid int primary key,' +
-    'transactFrom varchar(255) references Users not null,' +
-    'transactTo varchar(255) references Users not null,' +
-    'transTimeStamp timestamp not null,' +
-    'transAmt numeric(12,2) not null' +
-    ');' +
-
     'create table Reviews (' +
     'rid serial primary key,' +
     'review varchar(1024) not null,' +
