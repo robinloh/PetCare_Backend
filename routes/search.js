@@ -14,6 +14,7 @@ router.post('/', function (req, res, next) {
     const data = {
 
         reqType:         req.body.post,
+        bid:             req.body.bid,
         petownerEmail:   req.body.petownerEmail,
         caretakeremail:  req.body.caretakeremail, 
         rating:          req.body.rating,
@@ -42,7 +43,7 @@ router.post('/', function (req, res, next) {
             break;
 
         case "addBid":
-            pool.query(queries.query.make_bid, [data.petownerEmail, data.caretakerEmail, data.bidamount, data.dateofservice], (err, result) => {
+            pool.query(queries.query.make_bid, [data.petownerEmail, data.caretakeremail, data.bidamount, data.dateofservice], (err, result) => {
                 if (err) {
                     res.status(400).send(err.message);
 
@@ -62,6 +63,18 @@ router.post('/', function (req, res, next) {
             });
             break;
 
+        case "updateBid":
+            pool.query(queries.query.update_bid, [data.bid, data.bidamount], (err, result) => {
+                if (err) {
+                    // Return Error 400 if can't get availability, shouldn't happen
+                    res.status(400).send(err.stack);
+
+                } else {
+                    console.log(result.rows);
+                    res.send(result.rows);
+                }
+            });
+            break;
 
         case "getCurrentBids":
             pool.query(queries.query.get_current_bids, [data.petownerEmail], (err, result) => {
@@ -75,6 +88,7 @@ router.post('/', function (req, res, next) {
                 }
             });
             break;
+
         case "getAllCompletedServices":
             pool.query(queries.query.get_all_completed_services, [data.petownerEmail], (err, result) => {
 

@@ -32,7 +32,8 @@ queries.query = {
     get_work_schedule: 'SELECT bid, TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, users.name as petownerName, bidderEmail, bidAmount FROM Bids INNER JOIN Users on bids.bidderemail = users.email WHERE caretakerEmail = $1 and status = \'Won\' and dateofservice >= now()', //[caretakerEmail]
     get_current_bids: 'with currentHighestBids as (select * from bids inner join users on bids.bidderemail = users.email where status = \'current highest\'), currentUserBids as (select * from bids where bidderemail = $1 AND status <> \'Won\') select currentHighestBids.bid, TO_CHAR(currentUserBids.dateofservice, \'YYYY-MM-DD\') as dateofservice, currentUserBids.bidamount as bidamount, currentHighestBids.name, currentHighestBids.bidamount as highestamount from currentHighestBids, currentUserBids;', // [bidderemail]
     get_my_bids: 'SELECT bid, TO_CHAR(DateOfService, \'YYYY-MM-DD\') as DateOfService, bidderEmail, bidAmount FROM Bids WHERE caretakerEmail = $1 and status = \'current highest\'', //[caretakerEmail]
-    accept_bid: 'UPDATE Bids SET status = \'Won\' WHERE bid = $1 returning caretakerEmail, DateOfService', //[bid] 
+    update_bid: 'UPDATE Bids SET bidamount = $2, WHERE bid = $1', //[bid, bidamount]
+    accept_bid: 'UPDATE Bids SET status = \'Won\' WHERE bid = $1 returning caretakerEmail, DateOfService', //[bid]
     make_bid: 'INSERT INTO bids values (default, $1, $2, now(), $3, $4, null) returning bidtimestamp', //[bidderEmail, caretakerEmail, bidAmt, dateOfService]
     
     
