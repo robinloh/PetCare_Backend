@@ -45,7 +45,17 @@ router.post('/', function (req, res, next) {
                 console.log(result.rows[0]);
                 res.send(result.rows[0]);
             });
-        
+
+        case "deleteUser":
+            pool.query(queries.query.delete_user, [data.email], (err, result) => {
+
+                if (err) {
+                    res.status(400).send(err.stack);
+                }
+
+                console.log(result.rows[0]);
+                res.send(result.rows[0]);
+            });
     }
 });
 

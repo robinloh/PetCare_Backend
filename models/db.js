@@ -33,9 +33,9 @@ let bidsStub =
     'insert into bids values(default, \'po@hotmail.com\', \'ct@hotmail.com\', now(), 70, \'2019-10-10\', \'Won\');';
 
 let insertTestUsers =
-    'insert into users values(\'po@hotmail.com\', \'PetOwner1\', 99999999, \'12345678\');' +
-    'insert into users values(\'ct@hotmail.com\', \'CareTaker1\', 88888888, \'87654321\');' +
-    'insert into users values(\'admin@gmail.com\', \'Admin\', 91234567, \'cs2102\');' +
+    'insert into users values(\'po@hotmail.com\', \'PetOwner1\', 99999999, \'12345678\', \'false\');' +
+    'insert into users values(\'ct@hotmail.com\', \'CareTaker1\', 88888888, \'87654321\', \'false\');' +
+    'insert into users values(\'admin@gmail.com\', \'Admin\', 91234567, \'cs2102\', \'false\');' +
     'insert into petowners values(\'po@hotmail.com\');' +
     'insert into petowners values(\'admin@gmail.com\');' +
     'insert into caretakers values(\'ct@hotmail.com\');' +
@@ -124,6 +124,7 @@ let createTables =
     'name     varchar(255) not null,' +
     'phone    int not null,' +
     'password varchar not null,' +
+    'isdeleted boolean not null,' +
     'CHECK (phone >= 80000000 AND phone <= 99999999)' +
     ');' +
 

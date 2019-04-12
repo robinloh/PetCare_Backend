@@ -5,7 +5,8 @@ queries.query = {
     //for transactions in node, check this link: https://node-postgres.com/features/transactions
 
     // Account related
-    add_user: 'INSERT INTO Users VALUES($1, $2, $3, $4)', //[email, name, phone, password]
+    add_user: 'INSERT INTO Users VALUES($1, $2, $3, $4, \'false\')', //[email, name, phone, password, isDeleted]
+    delete_user: 'UPDATE Users SET isDeleted = \'true\' WHERE email = $1', // [email]
     get_user_name: 'SELECT name FROM Users WHERE email = $1',
     add_caretaker: 'INSERT INTO Caretakers VALUES($1)', //[email]
     add_petowner: 'INSERT INTO PetOwners VALUES($1)', //[email]
